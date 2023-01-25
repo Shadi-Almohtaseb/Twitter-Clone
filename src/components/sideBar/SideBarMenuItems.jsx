@@ -8,6 +8,7 @@ import {
   EnvelopeIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { UserAuth } from "../../context/AuthContext";
 
 let Items = [
   { title: "Home", icon: HomeIcon },
@@ -21,11 +22,19 @@ let Items = [
 ];
 
 const SideBarMenuItems = () => {
+  const { userIn } = UserAuth();
+
   return (
     <div className="mb-7">
-      {Items.map((Item, index) => {
-        return <MenuItem item={Item} Icon={Item.icon} key={index} />;
-      })}
+      {!userIn
+        ? Items.filter((_, index) => index <= 1 && !userIn).map(
+            (Item, index) => {
+              return <MenuItem item={Item} Icon={Item.icon} key={index} />;
+            }
+          )
+        : Items.map((Item, index) => {
+            return <MenuItem item={Item} Icon={Item.icon} key={index} />;
+          })}
     </div>
   );
 };

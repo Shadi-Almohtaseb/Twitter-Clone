@@ -9,8 +9,12 @@ import {
   HeartIcon,
   ArrowUpTrayIcon,
 } from "@heroicons/react/24/outline";
+import { UserAuth } from "../../context/AuthContext";
+import { useRouter } from "next/router";
 
 const Post = ({ post }) => {
+  const { userIn } = UserAuth();
+  const router = useRouter();
   return (
     <div className="border-t-[1px] mb-7">
       <div className="flex items-center justify-between py-4 px-4">
@@ -19,7 +23,7 @@ const Post = ({ post }) => {
             <Image
               width={45}
               height={45}
-              src={ProfileImage}
+              src={userIn?.photoURL || ProfileImage}
               className="rounded-full mr-3"
               alt="ProfileImage"
             ></Image>

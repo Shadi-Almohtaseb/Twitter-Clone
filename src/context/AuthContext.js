@@ -7,12 +7,21 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../../firebase.config";
+import { useRouter } from "next/router";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [userIn, setUserIn] = useState({});
   //const [usersList, setUsersList] = useState([]);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (userIn) {
+      router.push("/");
+    }
+  }, [userIn]);
 
   //   useEffect(() => {
   //     const query = ref(db, "users");

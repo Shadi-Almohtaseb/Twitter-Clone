@@ -7,15 +7,18 @@ import {
   GifIcon,
   PhotoIcon,
 } from "@heroicons/react/24/outline";
+import { UserAuth } from "../../context/AuthContext";
 
 const AddPostInput = () => {
+  const { userIn } = UserAuth();
+
   return (
     <div className="flex flex-col px-4 py-2">
       <div className="flex items-center justify-center gap-2 py-3">
         <Image
           width={50}
           height={50}
-          src={ProfileImage}
+          src={userIn.photoURL}
           alt="ProfileImage"
           className="rounded-full"
         ></Image>

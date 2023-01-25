@@ -1,33 +1,20 @@
-"use client";
-//import { signInWithGoogle } from "@/hooks/useSignIn";
-// import { UserAuth } from "@/context/AuthContext";
-// import { GoogleAuthProvider, signInWithPopup } from "@firebase/auth";
-// import { auth } from "firebase.config";
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import profileImage from "../../src/assets/Images/SignInImage.png";
 import { UserAuth } from "../../src/context/AuthContext";
 
 const SignIn = () => {
-  const { signInWithGoogle } = UserAuth();
+  const { signInWithGoogle, userIn } = UserAuth();
 
-  // const signInWithGoogle = () => {
-  //   const provider = new GoogleAuthProvider();
-  //   signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       // const userProfile = usersList?.find(u => u.email === result.user.email)
-  //       console.log("Results:", result);
-  //       // if (result.user.email !== userProfile?.email) {
-  //       //   addUsers(result);
-  //       // }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  const router = useRouter();
 
-  //const navigate = useNavigate();
-  // const SignInWithGoogle = use(getSignInWithGoogle());
+  // useEffect(() => {
+  //   if (userIn) {
+  //     router.push("/");
+  //   }
+  // }, [userIn]);
 
   const handelSignIn = async () => {
     await signInWithGoogle();
