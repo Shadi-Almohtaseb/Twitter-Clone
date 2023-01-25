@@ -1,20 +1,10 @@
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import profileImage from "../../src/assets/Images/SignInImage.png";
 import { UserAuth } from "../../src/context/AuthContext";
 
 const SignIn = () => {
-  const { signInWithGoogle, userIn } = UserAuth();
-
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (userIn) {
-  //     router.push("/");
-  //   }
-  // }, [userIn]);
+  const { signInWithGoogle } = UserAuth();
 
   const handelSignIn = async () => {
     await signInWithGoogle();
@@ -35,20 +25,5 @@ const SignIn = () => {
     </div>
   );
 };
-
-// export function getSignInWithGoogle() {
-//   const provider = new GoogleAuthProvider();
-//   return signInWithPopup(auth, provider)
-//     .then((result) => {
-//       // const userProfile = usersList?.find(u => u.email === result.user.email)
-//       console.log("Results:", result);
-//       // if (result.user.email !== userProfile?.email) {
-//       //   addUsers(result);
-//       // }
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// }
 
 export default SignIn;
