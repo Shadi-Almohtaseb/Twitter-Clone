@@ -24,7 +24,7 @@ const AddPostInput = () => {
   const [imagePost, setImagePost] = useState(null);
   const [loadingPost, setLoadingPost] = useState(false);
   const postImageRef = useRef(null);
-  console.log(userIn);
+
   const HandelAddPost = async () => {
     if (loadingPost) return;
     setLoadingPost(true);
@@ -135,13 +135,15 @@ const AddPostInput = () => {
         </div>
         <span
           className={`px-5 py-[9px] ml-2 p-3 flex w-fit rounded-full ${
-            textInputPost == ""
+            textInputPost === "" && imagePost === null
               ? "bg-slate-400"
               : "bg-[#1d9bf0] hover:bg-blue-600"
           }  text-white font-bold text-[15px] transition-all`}
           onClick={HandelAddPost}
         >
-          <button disabled={textInputPost == ""}>Tweet</button>
+          <button disabled={textInputPost === "" && imagePost === null}>
+            Tweet
+          </button>
         </span>
       </div>
     </div>
