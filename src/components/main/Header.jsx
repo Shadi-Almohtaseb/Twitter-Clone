@@ -1,9 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
+import { UserAuth } from "../../context/AuthContext";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const [feedToggle, setFeedToggle] = useState(true);
+  const { userIn } = UserAuth();
+  const router = useRouter();
   const OnTapChange = () => {
     setFeedToggle(!feedToggle);
   };
@@ -12,11 +16,27 @@ const Header = () => {
       <div className=" border-b-[1px]">
         <div className="flex items-center justify-between px-5">
           <span className="font-bold text-xl">Home</span>
-          <SparklesIcon
-            hanging={40}
-            width={40}
-            className="p-2 hover:bg-gray-200 rounded-full cursor-pointer"
-          />
+          {userIn ? (
+            <SparklesIcon
+              hanging={40}
+              width={40}
+              className="p-2 hover:bg-gray-200 rounded-full cursor-pointer"
+            />
+          ) : (
+            <div
+              className="flex items-center justify-center mt-2"
+              onClick={() => router.push("/auth/signin")}
+            >
+              <button className="py-[4px] px-7 flex md:hidden rounded-full bg-blue-500 text-white font-bold hover:bg-blue-700 transition-all text-lg">
+                Sign in
+              </button>
+              <SparklesIcon
+                hanging={40}
+                width={40}
+                className="p-2 hover:bg-gray-200 rounded-full cursor-pointer hidden md:flex"
+              />
+            </div>
+          )}
         </div>
         <div className="flex items-center justify-between mt-3 ">
           <span

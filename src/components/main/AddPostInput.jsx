@@ -26,7 +26,7 @@ const AddPostInput = () => {
   const postImageRef = useRef(null);
 
   const HandelAddPost = async () => {
-    if (loadingPost) return;
+    // if (loadingPost) return;
     setLoadingPost(true);
     try {
       const docRef = await addDoc(collection(db, "posts"), {
