@@ -8,7 +8,7 @@ const Header = () => {
     setFeedToggle(!feedToggle);
   };
   return (
-    <div className="sticky top-0 bg-white bg-opacity-70 backdrop-blur-lg">
+    <div className="sticky top-0 bg-white bg-opacity-70 backdrop-blur-lg z-10">
       <div className=" border-b-[1px]">
         <div className="flex items-center justify-between px-5">
           <span className="font-bold text-xl">Home</span>

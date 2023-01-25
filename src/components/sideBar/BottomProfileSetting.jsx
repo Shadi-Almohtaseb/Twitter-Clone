@@ -6,7 +6,6 @@ import { UserAuth } from "../../context/AuthContext";
 
 const BottomProfileSetting = () => {
   const { HandelSignOut, userIn } = UserAuth();
-  console.log("userIn", userIn);
   const signOut = async () => {
     await HandelSignOut();
   };
