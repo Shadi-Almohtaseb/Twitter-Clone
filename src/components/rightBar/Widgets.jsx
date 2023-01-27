@@ -9,7 +9,7 @@ const Widgets = ({ NewsData, UsersData }) => {
   const { userIn } = UserAuth();
   const router = useRouter();
   return (
-    <div className="md:flex hidden flex-col lg:w-[30%] h-screen border-l-[1px] overflow-y-scroll sticky top-0 RightBar pb-10 mr-3">
+    <div className="md:flex hidden flex-col lg:w-[30%] w-[60%] h-screen border-l-[1px] overflow-y-scroll sticky top-0 RightBar pb-10 pr-3 bg-white">
       {userIn ? (
         <div className="flex items-center justify-center gap-3 shadow-lg py-2 px-4 mt-4 mx-3 rounded-full bg-[#eff3f4]">
           <MagnifyingGlassIcon
@@ -24,7 +24,7 @@ const Widgets = ({ NewsData, UsersData }) => {
           />
         </div>
       ) : (
-        <div className="flex items-center justify-center mt-5">
+        <div className=" items-center justify-center mt-5 lg:hidden flex">
           <button
             onClick={() => router.push("/auth/signin")}
             className="py-[9px] px-11 rounded-full bg-blue-500 text-white font-bold hover:bg-blue-700 transition-all text-2xl"

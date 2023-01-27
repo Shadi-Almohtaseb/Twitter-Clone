@@ -1,11 +1,13 @@
 import Image from "next/image";
 import React from "react";
-import loadingImage from "../assets/Images/loading.gif";
+import loadingImage from "../assets/Images/Material-Loading-Animation-unscreen.gif";
 
 const Loading = () => {
   return (
-    <div className="flex items-center justify-center h-screen ">
-      <Image src={loadingImage} width={400} height={400} />
+    <div className="bg-[#8a8a8a69] z-40 h-screen w-screen fixed backdrop-blur-sm">
+      <div className="fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] z-50 bg-transparent">
+        <Image src={loadingImage} width={400} height={400} />
+      </div>
     </div>
   );
 };

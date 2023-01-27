@@ -9,7 +9,7 @@ const Feed = () => {
   const { userIn } = UserAuth();
 
   return (
-    <div className="flex flex-col lg:w-[45%] w-full lg:ml-[25.7%] sm:ml-[70px] border-l-[1px]">
+    <div className="flex flex-col lg:w-[45%] md:w-[50%] w-full lg:ml-[25%] sm:ml-[65px] border-l-[1px]">
       <Header />
       {userIn && <AddPostInput />}
       <Posts />

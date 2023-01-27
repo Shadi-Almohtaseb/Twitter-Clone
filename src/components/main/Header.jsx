@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { UserAuth } from "../../context/AuthContext";
 import { useRouter } from "next/router";
+import { ArrowDownLeftIcon, ArrowLeftIcon } from "@heroicons/react/20/solid";
 
 const Header = () => {
   const [feedToggle, setFeedToggle] = useState(true);
   const { userIn } = UserAuth();
   const router = useRouter();
+  const { Post_Id } = router.query;
+
   const OnTapChange = () => {
     setFeedToggle(!feedToggle);
   };
@@ -15,7 +18,19 @@ const Header = () => {
     <div className="sticky top-0 bg-white bg-opacity-70 backdrop-blur-lg z-10">
       <div className=" border-b-[1px]">
         <div className="flex items-center justify-between px-5">
-          <span className="font-bold text-xl">Home</span>
+          {Post_Id ? (
+            <div className="flex items-center justify-start gap-3 ">
+              <button
+                onClick={() => router.push("/")}
+                className="p-2 m-1 hover:bg-slate-100 rounded-full transition-all"
+              >
+                <ArrowLeftIcon hanging={30} width={30} />
+              </button>
+              <span className="text-xl font-semibold">Tweet</span>
+            </div>
+          ) : (
+            <span className="font-bold text-xl">Home</span>
+          )}
           {userIn ? (
             <SparklesIcon
               hanging={40}

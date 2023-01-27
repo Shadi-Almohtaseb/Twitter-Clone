@@ -1,104 +1,61 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
-import {
-  ChatBubbleOvalLeftEllipsisIcon,
-  ArrowPathRoundedSquareIcon,
-  HeartIcon,
-  ArrowUpTrayIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline";
-import { HeartIcon as FilledHeartIcon } from "@heroicons/react/20/solid";
-import { UserAuth } from "../../context/AuthContext";
 import Moment from "react-moment";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  setDoc,
-} from "firebase/firestore";
-import { db, storage } from "../../../firebase.config";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { db } from "../../../firebase.config";
+import BottomComments from "./BottomComments";
+import BottomPostActions from "./BottomPostActions";
 import { useRouter } from "next/router";
-import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Modal } from "antd";
-import { deleteObject, ref } from "firebase/storage";
-import { useRecoilState } from "recoil";
-import { modalState, postIdState } from "../../../atom/ModalAtom";
+import { UserAuth } from "../../context/AuthContext";
+import { AnimatePresence, motion } from "framer-motion";
 
-const { confirm } = Modal;
 const Post = ({ post }) => {
+  const [comments, setComments] = useState([]);
   const { userIn } = UserAuth();
-  const [likes, setLikes] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
-  const [open, setOpen] = useRecoilState(modalState);
-  const [postId, setPostId] = useRecoilState(postIdState);
-
   const router = useRouter();
+  const { Post_Id } = router.query;
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(
-      collection(db, "posts", post.id, "likes"),
-      (snapshot) => setLikes(snapshot.docs)
-    );
-  }, [db]);
-
-  useEffect(() => {
-    setIsLiked(likes.findIndex((like) => like.id === userIn?.uid) !== -1);
-  }, [likes]);
-
-  const HandelLike = async () => {
-    if (userIn) {
-      if (isLiked) {
-        await deleteDoc(doc(db, "posts", post.id, "likes", userIn?.uid));
-      } else {
-        await setDoc(doc(db, "posts", post.id, "likes", userIn?.uid), {
-          userName: userIn.displayName,
-        });
-      }
-    } else {
-      router.push("/auth/signin");
-    }
-  };
-
-  const showDeleteConfirm = () => {
-    confirm({
-      title: "Are you sure delete this post?",
-      icon: <ExclamationCircleFilled />,
-      okText: "Yes",
-      okType: "danger",
-      cancelText: "No",
-      async onOk() {
-        deleteDoc(doc(db, "posts", post.id));
-        if (post.data().imagePost) {
-          deleteObject(ref(storage, `posts/${post.id}/image`));
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "posts", post.id, "comments"),
+          orderBy("timeStamp", "desc")
+        ),
+        (snapshot) => {
+          setComments(snapshot.docs);
         }
-      },
-      onCancel() {},
-    });
-  };
+      ),
+    [db]
+  );
+
   return (
-    <div className="border-t-[1px] mb-7">
+    <div
+      className={`border-t-[1px] mb-5 bg-white shadow-xl rounded-md ${
+        Post_Id && "pb-0"
+      } ${comments.length >= 3 && userIn ? "pb-3" : "pb-0"}`}
+    >
       <div className="flex items-center justify-between py-4 px-4">
         <div className="flex items-center">
           <div>
             <Image
               width={45}
               height={45}
-              src={post.data().userImage}
+              src={post?.data()?.userImage}
               className="rounded-full mr-3"
             ></Image>
           </div>
           <div>
             <span className="hover:underline cursor-pointer font-semibold">
-              {post.data().name}{" "}
+              {post?.data()?.name}{" "}
             </span>
             <span className="text-gray-500">
-              @{post.data().name.toLowerCase().replace(/\s/g, "")}
+              @{post?.data()?.name.toLowerCase().replace(/\s/g, "")}
               {"   -  "}
             </span>
             <span className="text-gray-600">
-              <Moment fromNow>{post?.data().timeStamp?.toDate()}</Moment>
+              <Moment fromNow>{post?.data()?.timeStamp?.toDate()}</Moment>
             </span>
           </div>
         </div>
@@ -110,79 +67,60 @@ const Post = ({ post }) => {
           />
         </div>
       </div>
-      <div className="pl-5 pb-4 break-words">{post.data().textInputPost}</div>
+      <div className="pl-5 pb-4 break-words">{post?.data()?.textInputPost}</div>
       <div className="px-3">
-        <img src={post.data().imagePost} className="rounded-xl" />
+        <img src={post?.data()?.imagePost} className="rounded-xl" />
       </div>
-      <div className="flex items-center justify-around py-3">
-        <div
-          onClick={() => {
-            if (!userIn) {
-              router.push("/auth/signin");
-            } else {
-              setPostId(post.id);
-              setOpen(!open);
-            }
-          }}
-          className="flex items-center justify-center cursor-pointer group  gap-2 hover:text-blue-500"
-        >
-          <ChatBubbleOvalLeftEllipsisIcon
-            hanging={39}
-            width={39}
-            className="group-hover:bg-blue-100 rounded-full  p-[8px]"
-          />
-          <span>0</span>
-        </div>
-        <div className="flex items-center justify-center  cursor-pointer group gap-2  hover:text-green-400">
-          <ArrowPathRoundedSquareIcon
-            hanging={39}
-            width={39}
-            className="group-hover:bg-green-100 rounded-full  p-[8px]"
-          />
-          <span>0</span>
-        </div>
-        <div
-          onClick={HandelLike}
-          className="flex items-center justify-center cursor-pointer group  gap-2  hover:text-pink-500"
-        >
-          {!isLiked ? (
-            <HeartIcon
-              hanging={39}
-              width={39}
-              className="group-hover:bg-pink-100 rounded-full p-[8px]"
-            />
-          ) : (
-            <FilledHeartIcon
-              hanging={39}
-              width={39}
-              className="group-hover:bg-[#fce3e7db] text-pink-600 rounded-full p-[8px]"
-            />
-          )}
-          <span className={`${likes.length === 0 && "hidden"}`}>
-            {likes.length}
-          </span>
-        </div>
-        <div className="flex items-center justify-center gap-2 group hover:text-blue-500 cursor-pointer  ">
-          <ArrowUpTrayIcon
-            hanging={39}
-            width={39}
-            className="group-hover:bg-blue-100 p-[10px] rounded-full"
-          />
-          <span>0</span>
-        </div>
-        <div
-          onClick={showDeleteConfirm}
-          className={`flex items-center justify-center gap-2 group hover:text-red-500 cursor-pointer ${
-            post.data().uid !== userIn?.uid && "hidden"
-          }`}
-        >
-          <TrashIcon
-            hanging={40}
-            width={40}
-            className="group-hover:bg-red-100 p-[10px] rounded-full"
-          />
-        </div>
+      <div className="w-full">
+        <BottomPostActions post={post} />
       </div>
+      <div className="w-full">
+        <AnimatePresence>
+          {Post_Id
+            ? comments.map((comment, index) => {
+                return (
+                  <motion.div
+                    key={post.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.1 }}
+                  >
+                    <BottomComments key={index} comment={comment} post={post} />
+                  </motion.div>
+                );
+              })
+            : comments
+                .filter((_, index) => index <= 2)
+                .map((comment, index) => {
+                  return (
+                    <motion.div
+                      key={post.id}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 1.1 }}
+                    >
+                      <BottomComments
+                        key={index}
+                        comment={comment}
+                        post={post}
+                      />
+                    </motion.div>
+                  );
+                })}
+        </AnimatePresence>
+      </div>
+      <span
+        onClick={() => router.push(`/post/${post.id}`)}
+        className={`text-gray-600 ${userIn ? "flex" : "hidden"} ${
+          comments.length <= 3 && "hidden"
+        } ${
+          Post_Id && "hidden"
+        } decoration-slate-600 cursor-pointer hover:underline text-base pl-5`}
+      >
+        See all comments...
+      </span>
     </div>
   );
 };
