@@ -18,16 +18,22 @@ import {
   onSnapshot,
   setDoc,
 } from "firebase/firestore";
-import { db } from "../../../firebase.config";
+import { db, storage } from "../../../firebase.config";
 import { useRouter } from "next/router";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Modal } from "antd";
+import { deleteObject, ref } from "firebase/storage";
+import { useRecoilState } from "recoil";
+import { modalState, postIdState } from "../../../atom/ModalAtom";
 
 const { confirm } = Modal;
 const Post = ({ post }) => {
   const { userIn } = UserAuth();
   const [likes, setLikes] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [open, setOpen] = useRecoilState(modalState);
+  const [postId, setPostId] = useRecoilState(postIdState);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -63,7 +69,10 @@ const Post = ({ post }) => {
       okType: "danger",
       cancelText: "No",
       async onOk() {
-        await deleteDoc(doc(db, "posts", post.id));
+        deleteDoc(doc(db, "posts", post.id));
+        if (post.data().imagePost) {
+          deleteObject(ref(storage, `posts/${post.id}/image`));
+        }
       },
       onCancel() {},
     });
@@ -101,12 +110,22 @@ const Post = ({ post }) => {
           />
         </div>
       </div>
-      <div className="pl-5 pb-4">{post.data().textInputPost}</div>
+      <div className="pl-5 pb-4 break-words">{post.data().textInputPost}</div>
       <div className="px-3">
         <img src={post.data().imagePost} className="rounded-xl" />
       </div>
       <div className="flex items-center justify-around py-3">
-        <div className="flex items-center justify-center cursor-pointer group  gap-2 hover:text-blue-500">
+        <div
+          onClick={() => {
+            if (!userIn) {
+              router.push("/auth/signin");
+            } else {
+              setPostId(post.id);
+              setOpen(!open);
+            }
+          }}
+          className="flex items-center justify-center cursor-pointer group  gap-2 hover:text-blue-500"
+        >
           <ChatBubbleOvalLeftEllipsisIcon
             hanging={39}
             width={39}
@@ -163,15 +182,6 @@ const Post = ({ post }) => {
             className="group-hover:bg-red-100 p-[10px] rounded-full"
           />
         </div>
-        {/* <Modal title="Delete" open={open} confirmLoading={confirmLoading}>
-          <p>Are you sure that you want to do delete this post?</p>
-          <div className="flex items-end justify-end">
-            <Button type="primary" danger onClick={handleOk}>
-              Delete
-            </Button>
-            <Button onClick={handleCancel}>Close</Button>
-          </div>
-        </Modal> */}
       </div>
     </div>
   );

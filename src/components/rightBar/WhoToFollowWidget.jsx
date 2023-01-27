@@ -1,4 +1,5 @@
 "use client";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import WhoToFollowItem from "./WhoToFollowItem";
 
@@ -9,11 +10,23 @@ const WhoToFollowWidget = ({ UsersData }) => {
     <div className="pt-5 bg-[#f3f4f6] rounded-xl ml-4 mt-10 shadow-lg">
       <span className="font-bold text-xl pl-2">Who To follow</span>
       <div className="flex flex-col gap-7 mt-5 px-1">
-        {UsersData.filter((_, index) => index <= usersItemsCount).map(
-          (item, index) => {
-            return <WhoToFollowItem item={item} key={index} />;
-          }
-        )}
+        <AnimatePresence>
+          {UsersData.filter((_, index) => index <= usersItemsCount).map(
+            (item, index) => {
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.2 }}
+                >
+                  <WhoToFollowItem item={item} key={index} />
+                </motion.div>
+              );
+            }
+          )}
+        </AnimatePresence>
       </div>
       <div className="flex">
         <div

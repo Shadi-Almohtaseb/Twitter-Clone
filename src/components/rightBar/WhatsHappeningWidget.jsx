@@ -1,4 +1,5 @@
 "use client";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import NewsItem from "./newsItem";
 
@@ -8,11 +9,23 @@ const WhatsHappeningWidget = ({ NewsData }) => {
   return (
     <div className="pt-5 bg-[#f3f4f6] rounded-xl ml-4 mt-10 shadow-lg">
       <span className="font-bold text-xl pl-2">Whats Happening</span>
-      {NewsData.filter((_, index) => index <= newsItemsCount).map(
-        (item, index) => {
-          return <NewsItem item={item} key={index} />;
-        }
-      )}
+      <AnimatePresence>
+        {NewsData.filter((_, index) => index <= newsItemsCount).map(
+          (item, index) => {
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2 }}
+              >
+                <NewsItem item={item} key={index} />
+              </motion.div>
+            );
+          }
+        )}
+      </AnimatePresence>
       <div className="flex">
         <div
           onClick={() => setNewsItemsCount(newsItemsCount + 3)}

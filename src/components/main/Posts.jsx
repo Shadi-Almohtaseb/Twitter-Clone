@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../../firebase.config";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -19,9 +20,21 @@ const Posts = () => {
 
   return (
     <div>
-      {posts.map((post, index) => {
-        return <Post post={post} key={index} />;
-      })}
+      <AnimatePresence>
+        {posts.map((post) => {
+          return (
+            <motion.div
+              key={post.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+            >
+              <Post post={post} key={post.id} />
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 };
