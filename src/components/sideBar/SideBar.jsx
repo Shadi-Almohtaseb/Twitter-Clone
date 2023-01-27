@@ -11,7 +11,7 @@ const SideBar = () => {
   const { userIn } = UserAuth();
   const router = useRouter();
   return (
-    <div className="lg:w-[25%] w-fit fixed hidden lg:pr-12 h-screen sm:flex flex-col items-end justify-between">
+    <div className="lg:w-[25%] w-fit fixed hidden lg:pr-12 h-full sm:flex flex-col items-end justify-between bg-white">
       <div>
         {/* Twitter Logo */}
         <Image
@@ -19,7 +19,7 @@ const SideBar = () => {
           height={60}
           src={TwitterImage}
           alt="TwitterImage"
-          className="lg:mr-36 mr-1 mt-2 p-2 rounded-full bg-slate-50 hover:bg-blue-50 hover:cursor-pointer "
+          className="lg:mr-36 mr-1 mt-2 p-2 rounded-full hover:bg-blue-100 hover:cursor-pointer "
         ></Image>
         {/* Menu Items in SideBar */}
         <SideBarMenuItems />

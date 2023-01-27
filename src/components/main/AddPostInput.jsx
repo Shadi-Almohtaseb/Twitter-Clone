@@ -67,7 +67,7 @@ const AddPostInput = () => {
   };
 
   return (
-    <div className="flex flex-col px-4 py-2">
+    <div className="flex flex-col px-4 py-2 bg-white">
       <div className="flex items-center justify-start gap-2 py-3">
         <Image
           width={50}
