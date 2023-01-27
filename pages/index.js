@@ -2,6 +2,7 @@ import Head from "next/head";
 import SideBar from "../src/components/sideBar/SideBar";
 import Feed from "../src/components/main/Feed";
 import Widgets from "../src/components/rightBar/Widgets";
+import CommentModal from "../src/components/CommentModal";
 
 export default function Home({ NewsData, UsersData }) {
   return (
@@ -15,6 +16,7 @@ export default function Home({ NewsData, UsersData }) {
         <SideBar />
         <Feed />
         <Widgets NewsData={NewsData} UsersData={UsersData} />
+        <CommentModal />
       </main>
     </div>
   );

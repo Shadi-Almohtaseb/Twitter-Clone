@@ -23,11 +23,11 @@ const Header = () => {
               className="p-2 hover:bg-gray-200 rounded-full cursor-pointer"
             />
           ) : (
-            <div
-              className="flex items-center justify-center mt-2"
-              onClick={() => router.push("/auth/signin")}
-            >
-              <button className="py-[4px] px-7 flex md:hidden rounded-full bg-blue-500 text-white font-bold hover:bg-blue-700 transition-all text-lg">
+            <div className="flex items-center justify-center mt-2">
+              <button
+                onClick={() => router.push("/auth/signin")}
+                className="py-[4px] px-7 flex md:hidden rounded-full bg-blue-500 text-white font-bold hover:bg-blue-700 transition-all text-lg"
+              >
                 Sign in
               </button>
               <SparklesIcon

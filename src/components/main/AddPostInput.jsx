@@ -68,7 +68,7 @@ const AddPostInput = () => {
 
   return (
     <div className="flex flex-col px-4 py-2">
-      <div className="flex items-center justify-center gap-2 py-3">
+      <div className="flex items-center justify-start gap-2 py-3">
         <Image
           width={50}
           height={50}
@@ -76,14 +76,14 @@ const AddPostInput = () => {
           alt="ProfileImage"
           className="rounded-full"
         ></Image>
-        <input
-          type="text"
-          placeholder="What's happening?"
-          value={textInputPost}
-          onChange={(e) => setTextInputPost(e.target.value)}
-          className="w-full h-16 py-2 px-3 outline-none text-xl rounded-xl bg-transparent placeholder:text-xl"
-        />
       </div>
+      <textarea
+        type="text"
+        placeholder="What's happening?"
+        value={textInputPost}
+        onChange={(e) => setTextInputPost(e.target.value)}
+        className="w-full h-16 py-2 min-h-[60px] px-3 pl-[71px] -mt-[55px] mb-9 outline-none text-xl rounded-xl bg-transparent placeholder:text-xl"
+      />
       {imagePost && (
         <div className="relative">
           <div

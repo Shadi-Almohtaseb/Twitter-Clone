@@ -4,6 +4,7 @@ import LoadingSpinner from "../src/components/LoadingSpinner.jsx";
 
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { RecoilRoot } from "recoil";
 
 function Loading() {
   const router = useRouter();
@@ -31,8 +32,10 @@ function Loading() {
 function MyApp({ Component, pageProps }) {
   return (
     <AuthContextProvider>
-      <Loading />
-      <Component {...pageProps} />
+      <RecoilRoot>
+        <Loading />
+        <Component {...pageProps} />
+      </RecoilRoot>
     </AuthContextProvider>
   );
 }

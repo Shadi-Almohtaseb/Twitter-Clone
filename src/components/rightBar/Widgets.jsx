@@ -24,11 +24,11 @@ const Widgets = ({ NewsData, UsersData }) => {
           />
         </div>
       ) : (
-        <div
-          className="flex items-center justify-center mt-5"
-          onClick={() => router.push("/auth/signin")}
-        >
-          <button className="py-[9px] px-11 rounded-full bg-blue-500 text-white font-bold hover:bg-blue-700 transition-all text-2xl">
+        <div className="flex items-center justify-center mt-5">
+          <button
+            onClick={() => router.push("/auth/signin")}
+            className="py-[9px] px-11 rounded-full bg-blue-500 text-white font-bold hover:bg-blue-700 transition-all text-2xl"
+          >
             Sign in
           </button>
         </div>
