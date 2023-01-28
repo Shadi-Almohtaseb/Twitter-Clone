@@ -9,6 +9,13 @@ import BottomPostActions from "./BottomPostActions";
 import { useRouter } from "next/router";
 import { UserAuth } from "../../context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+import { Dropdown, Tooltip } from "antd";
+import {
+  BookmarkIcon,
+  ChevronUpIcon,
+  HeartIcon,
+} from "@heroicons/react/24/outline";
 
 const Post = ({ post }) => {
   const [comments, setComments] = useState([]);
@@ -30,11 +37,50 @@ const Post = ({ post }) => {
     [db]
   );
 
+  const items = [
+    {
+      key: "0",
+      label: (
+        <div className="flex items-center justify-between px-3 py-1 gap-5">
+          <button onClick={{}} className="text-lg">
+            Save
+          </button>
+          <BookmarkIcon width={22} height={22} />
+        </div>
+      ),
+    },
+    {
+      key: "1",
+      label: (
+        <div className="flex items-center justify-between px-3 py-1 gap-5">
+          <button onClick={{}} className="text-lg">
+            Show Likes
+          </button>
+          <HeartIcon width={22} height={22} />
+        </div>
+      ),
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "2",
+      label: (
+        <div className="flex items-center justify-between px-3 py-1 gap-5">
+          <button onClick={{}} className="text-lg">
+            Visit post
+          </button>
+          <ChevronUpIcon width={22} height={22} />
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div
-      className={`border-t-[1px] mb-5 bg-white shadow-xl rounded-md ${
+      className={`border-t-[1px] mb-5 bg-[#f9f9f9] shadow-lg rounded-md ${
         Post_Id && "pb-0"
-      } ${comments.length >= 3 && userIn ? "pb-3" : "pb-0"}`}
+      } ${comments.length > 3 && userIn ? "pb-3" : "pb-0"}`}
     >
       <div className="flex items-center justify-between py-4 px-4">
         <div className="flex items-center">
@@ -60,11 +106,22 @@ const Post = ({ post }) => {
           </div>
         </div>
         <div className="p-[7px] hover:bg-gray-200 rounded-full cursor-pointer">
-          <EllipsisHorizontalIcon
-            hanging={30}
-            width={30}
-            className="text-gray-700"
-          />
+          <Tooltip placement="bottom" color="#37a4e0" title="Settings">
+            <Dropdown
+              menu={{
+                items,
+              }}
+              arrow
+              placement="topRight"
+              trigger={["click"]}
+            >
+              <EllipsisHorizontalIcon
+                hanging={30}
+                width={30}
+                className="text-gray-700"
+              />
+            </Dropdown>
+          </Tooltip>
         </div>
       </div>
       <div className="pl-5 pb-4 break-words">{post?.data()?.textInputPost}</div>
@@ -119,8 +176,9 @@ const Post = ({ post }) => {
                 })}
         </AnimatePresence>
       </div>
-      <span
-        onClick={() => router.push(`/post/${post.id}`)}
+      <Link
+        href={`/post/${post.id}`}
+        // onClick={() => router.push(`/post/${post.id}`)}
         className={`text-gray-600 ${userIn ? "flex" : "hidden"} ${
           comments.length <= 3 && "hidden"
         } ${
@@ -128,7 +186,7 @@ const Post = ({ post }) => {
         } decoration-slate-600 cursor-pointer hover:underline text-base pl-5`}
       >
         See all comments...
-      </span>
+      </Link>
     </div>
   );
 };

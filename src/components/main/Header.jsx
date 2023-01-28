@@ -4,6 +4,7 @@ import { SparklesIcon } from "@heroicons/react/24/outline";
 import { UserAuth } from "../../context/AuthContext";
 import { useRouter } from "next/router";
 import { ArrowDownLeftIcon, ArrowLeftIcon } from "@heroicons/react/20/solid";
+import Link from "next/link";
 
 const Header = () => {
   const [feedToggle, setFeedToggle] = useState(true);
@@ -20,12 +21,13 @@ const Header = () => {
         <div className="flex items-center justify-between px-5">
           {Post_Id ? (
             <div className="flex items-center justify-start gap-3 ">
-              <button
-                onClick={() => router.push("/")}
+              <Link
+                href="/"
+                // onClick={() => router.push("/")}
                 className="p-2 m-1 hover:bg-slate-100 rounded-full transition-all"
               >
                 <ArrowLeftIcon hanging={30} width={30} />
-              </button>
+              </Link>
               <span className="text-xl font-semibold">Tweet</span>
             </div>
           ) : (
