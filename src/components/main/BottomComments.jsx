@@ -91,9 +91,12 @@ const BottomComments = ({ comment, commentId, postId }) => {
             ></Image>
           </div>
           <div className="-mt-3 flex items-center gap-2">
-            <span className="hover:underline cursor-pointer font-semibold">
+            <span className="hover:underline cursor-pointer font-semibold sm:flex hidden">
               {comment?.data().userName}{" "}
             </span>{" "}
+            <span className="hover:underline cursor-pointer font-semibold pr-1 sm:hidden flex">
+              {comment?.data().userName.slice(0, 11) + "..."}{" "}
+            </span>
             <div>
               <Image src={AuthenticationMark} width={20} />
             </div>

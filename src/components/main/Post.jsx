@@ -94,14 +94,19 @@ const Post = ({ post }) => {
             ></Image>
           </div>
           <div className="flex items-center">
-            <span className="hover:underline cursor-pointer font-semibold pr-1">
+            <span className="hover:underline cursor-pointer font-semibold pr-1 sm:flex hidden">
               {post?.data()?.name}{" "}
+            </span>
+            <span className="hover:underline cursor-pointer font-semibold pr-1 sm:hidden flex">
+              {post?.data()?.name.slice(0, 11) + "..."}{" "}
             </span>
             <div>
               <Image src={AuthenticationMark} width={20} />
             </div>{" "}
-            <span className="text-gray-500 pl-2">
-              @{post?.data()?.name.toLowerCase().replace(/\s/g, "")}
+            <span className="text-gray-500 pl-2 hidden lg:flex">
+              @
+              {post?.data()?.name.toLowerCase().replace(/\s/g, "").slice(0, 8) +
+                "..."}
               {" - "}
             </span>
             <span className="text-gray-600 pl-1">
