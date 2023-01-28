@@ -86,7 +86,13 @@ const Post = ({ post }) => {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1.1 }}
                   >
-                    <BottomComments key={index} comment={comment} post={post} />
+                    <BottomComments
+                      key={index}
+                      comment={comment}
+                      commentId={comment.id}
+                      postId={post.id}
+                      post={post}
+                    />
                   </motion.div>
                 );
               })
@@ -104,6 +110,8 @@ const Post = ({ post }) => {
                       <BottomComments
                         key={index}
                         comment={comment}
+                        commentId={comment.id}
+                        postId={post.id}
                         post={post}
                       />
                     </motion.div>

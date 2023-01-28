@@ -74,6 +74,7 @@ const BottomPostActions = ({ post }) => {
       router.push("/auth/signin");
     }
   };
+
   const { confirm } = Modal;
 
   const showDeleteConfirm = () => {
