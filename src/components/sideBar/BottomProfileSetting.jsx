@@ -16,17 +16,6 @@ const BottomProfileSetting = () => {
     await HandelSignOut();
   };
 
-  /*
-  <Dropdown
-        menu={{
-          items,
-        }}
-        placement="top"
-      >
-        <Button>top</Button>
-      </Dropdown>
-  */
-
   const items = [
     {
       key: "1",

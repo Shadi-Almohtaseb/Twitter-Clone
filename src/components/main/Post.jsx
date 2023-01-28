@@ -16,6 +16,7 @@ import {
   ChevronUpIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
+import AuthenticationMark from "../../assets/Images/AuthenticationMark.png";
 
 const Post = ({ post }) => {
   const [comments, setComments] = useState([]);
@@ -92,15 +93,18 @@ const Post = ({ post }) => {
               className="rounded-full mr-3"
             ></Image>
           </div>
-          <div>
-            <span className="hover:underline cursor-pointer font-semibold">
+          <div className="flex items-center">
+            <span className="hover:underline cursor-pointer font-semibold pr-1">
               {post?.data()?.name}{" "}
             </span>
-            <span className="text-gray-500">
+            <div>
+              <Image src={AuthenticationMark} width={20} />
+            </div>{" "}
+            <span className="text-gray-500 pl-2">
               @{post?.data()?.name.toLowerCase().replace(/\s/g, "")}
-              {"   -  "}
+              {" - "}
             </span>
-            <span className="text-gray-600">
+            <span className="text-gray-600 pl-1">
               <Moment fromNow>{post?.data()?.timeStamp?.toDate()}</Moment>
             </span>
           </div>
@@ -124,7 +128,9 @@ const Post = ({ post }) => {
           </Tooltip>
         </div>
       </div>
-      <div className="pl-5 pb-4 break-words">{post?.data()?.textInputPost}</div>
+      <div className="px-5 pb-4 break-words textInput">
+        {post?.data()?.textInputPost}
+      </div>
       <div className="px-3">
         <img src={post?.data()?.imagePost} className="rounded-xl" />
       </div>
