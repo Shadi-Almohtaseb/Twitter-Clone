@@ -23,7 +23,7 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { deleteObject, ref } from "firebase/storage";
 import { useRecoilState } from "recoil";
 import { modalState, postIdState } from "../../../atom/ModalAtom";
-import { Modal } from "antd";
+import { Modal, Tooltip } from "antd";
 const BottomPostActions = ({ post }) => {
   const { userIn } = UserAuth();
   const [likes, setLikes] = useState([]);
@@ -110,66 +110,81 @@ const BottomPostActions = ({ post }) => {
         }}
         className="flex items-center justify-center cursor-pointer group  gap-2 hover:text-blue-500"
       >
-        <ChatBubbleOvalLeftEllipsisIcon
-          hanging={39}
-          width={39}
-          className="group-hover:bg-blue-100 rounded-full  p-[8px]"
-        />
+        <Tooltip placement="top" color="#37a4ed" title="Comment">
+          <ChatBubbleOvalLeftEllipsisIcon
+            hanging={39}
+            width={39}
+            className="group-hover:bg-blue-100 rounded-full  p-[8px]"
+          />
+        </Tooltip>
         <span className={`${comments.length <= 0 && "hidden"}`}>
           {comments.length}
         </span>
       </div>
-      <div className="flex items-center justify-center  cursor-pointer group gap-2  hover:text-green-400">
-        <ArrowPathRoundedSquareIcon
-          hanging={39}
-          width={39}
-          className="group-hover:bg-green-100 rounded-full  p-[8px]"
-        />
-        <span className="hidden">0</span>
-      </div>
+      <Tooltip placement="top" color="#4bdd7f" title="Retweet">
+        <div className="flex items-center justify-center  cursor-pointer group gap-2  hover:text-green-400">
+          <ArrowPathRoundedSquareIcon
+            hanging={39}
+            width={39}
+            className="group-hover:bg-green-100 rounded-full  p-[8px]"
+          />
+          <span className="hidden">0</span>
+        </div>
+      </Tooltip>
       <div
         onClick={HandelLike}
         className="flex items-center justify-center cursor-pointer group  gap-2  hover:text-pink-500"
       >
-        {!isLiked ? (
-          <HeartIcon
-            hanging={39}
-            width={39}
-            className="group-hover:bg-pink-100 rounded-full p-[8px]"
-          />
-        ) : (
-          <FilledHeartIcon
-            hanging={39}
-            width={39}
-            className="group-hover:bg-[#fce3e7db] text-pink-600 rounded-full p-[8px]"
-          />
-        )}
+        <Tooltip placement="top" color="#e2479c" title="Like">
+          {!isLiked ? (
+            <HeartIcon
+              hanging={39}
+              width={39}
+              className="group-hover:bg-pink-100 rounded-full p-[8px]"
+            />
+          ) : (
+            <FilledHeartIcon
+              hanging={39}
+              width={39}
+              className="group-hover:bg-[#fce3e7db] text-pink-600 rounded-full p-[8px]"
+            />
+          )}
+        </Tooltip>
         <span className={`${likes.length === 0 && "hidden"}`}>
           {likes.length}
         </span>
       </div>
-      <div className="flex items-center justify-center gap-2 group hover:text-blue-500 cursor-pointer  ">
-        <ArrowUpTrayIcon
-          hanging={39}
-          width={39}
-          className="group-hover:bg-blue-100 p-[10px] rounded-full"
-        />
-        <span className="hidden">0</span>
-      </div>
-      <div
-        onClick={showDeleteConfirm}
-        className={`flex items-center justify-center gap-2 group hover:text-red-500 cursor-pointer ${
-          post?.data()?.uid !== userIn?.uid && "hidden"
-        }`}
-      >
-        <TrashIcon
-          hanging={40}
-          width={40}
-          className="group-hover:bg-red-100 p-[10px] rounded-full"
-        />
-      </div>
+      <Tooltip placement="top" color="cyan" title="Share">
+        <div className="flex items-center justify-center gap-2 group hover:text-blue-500 cursor-pointer  ">
+          <ArrowUpTrayIcon
+            hanging={39}
+            width={39}
+            className="group-hover:bg-blue-100 p-[10px] rounded-full"
+          />
+          <span className="hidden">0</span>
+        </div>
+      </Tooltip>
+      <Tooltip placement="top" color="magenta" title="Delete">
+        <div
+          onClick={showDeleteConfirm}
+          className={`flex items-center justify-center gap-2 group hover:text-red-500 cursor-pointer ${
+            post?.data()?.uid !== userIn?.uid && "hidden"
+          }`}
+        >
+          <TrashIcon
+            hanging={40}
+            width={40}
+            className="group-hover:bg-red-100 p-[10px] rounded-full"
+          />
+        </div>
+      </Tooltip>
     </div>
   );
 };
 
 export default BottomPostActions;
+/*
+<Tooltip placement="rightBottom" title={text}>
+        <Button>RB</Button>
+      </Tooltip>
+       */

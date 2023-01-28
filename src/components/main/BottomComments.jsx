@@ -13,7 +13,7 @@ import { UserAuth } from "../../context/AuthContext";
 import { useRecoilState } from "recoil";
 import { modalState } from "../../../atom/ModalAtom";
 import { db } from "../../../firebase.config";
-import { Modal } from "antd";
+import { Modal, Tooltip } from "antd";
 import {
   collection,
   deleteDoc,
@@ -114,30 +114,34 @@ const BottomComments = ({ comment, commentId, postId }) => {
           }}
           className="flex items-center justify-center cursor-pointer group  gap-2 hover:text-blue-500"
         >
-          <ChatBubbleOvalLeftEllipsisIcon
-            hanging={34}
-            width={34}
-            className="group-hover:bg-blue-100 rounded-full  p-[8px]"
-          />
+          <Tooltip placement="top" color="#37a4ed" title="Comment">
+            <ChatBubbleOvalLeftEllipsisIcon
+              hanging={34}
+              width={34}
+              className="group-hover:bg-blue-100 rounded-full  p-[8px]"
+            />
+          </Tooltip>
           <span className="hidden">0</span>
         </div>
         <div
           onClick={() => HandelLikeComment(postId)}
           className="flex items-center justify-center cursor-pointer group  gap-2  hover:text-pink-500"
         >
-          {!isLiked ? (
-            <HeartIcon
-              hanging={34}
-              width={34}
-              className="group-hover:bg-pink-100 rounded-full p-[8px]"
-            />
-          ) : (
-            <FilledHeartIcon
-              hanging={34}
-              width={34}
-              className="group-hover:bg-[#fce3e7db] text-pink-600 rounded-full p-[8px]"
-            />
-          )}
+          <Tooltip placement="top" color="#e2479c" title="Like">
+            {!isLiked ? (
+              <HeartIcon
+                hanging={34}
+                width={34}
+                className="group-hover:bg-pink-100 rounded-full p-[8px]"
+              />
+            ) : (
+              <FilledHeartIcon
+                hanging={34}
+                width={34}
+                className="group-hover:bg-[#fce3e7db] text-pink-600 rounded-full p-[8px]"
+              />
+            )}
+          </Tooltip>
           <span className={`${likes.length === 0 && "hidden"}`}>
             {likes.length}
           </span>
@@ -148,11 +152,13 @@ const BottomComments = ({ comment, commentId, postId }) => {
             comment?.data().uid !== userIn?.uid && "hidden"
           }`}
         >
-          <TrashIcon
-            hanging={35}
-            width={35}
-            className="group-hover:bg-red-100 p-[10px] rounded-full"
-          />
+          <Tooltip placement="top" color="magenta" title="Delete">
+            <TrashIcon
+              hanging={35}
+              width={35}
+              className="group-hover:bg-red-100 p-[10px] rounded-full"
+            />
+          </Tooltip>
         </div>
       </div>
     </div>

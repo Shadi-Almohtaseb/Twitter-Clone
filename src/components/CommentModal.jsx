@@ -43,7 +43,6 @@ const CommentModal = () => {
 
     setCommentText("");
     setOpen(false);
-    router.push(`/post/${post.id}`);
   };
 
   return (
