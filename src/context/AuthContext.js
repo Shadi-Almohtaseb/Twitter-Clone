@@ -6,14 +6,15 @@ import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
-import { auth } from "../../firebase.config";
+import { auth, db } from "../../firebase.config";
 import { useRouter } from "next/router";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [userIn, setUserIn] = useState({});
-  //const [usersList, setUsersList] = useState([]);
+  // const [usersList, setUsersList] = useState([]);
 
   const router = useRouter();
 
@@ -36,24 +37,26 @@ export const AuthContextProvider = ({ children }) => {
   //     });
   //   }, []);
 
-  //   const addUsers = (result) => {
-  //     set(ref(db, 'users/' + usersList.length), {
-  //       id: usersList.length,
-  //       email: result.user.email,
-  //       name: result.user.displayName,
-  //       avatar: result.user.photoURL,
-  //       imageProfile: 'https://source.unsplash.com/random'
-  //     });
-  //   }
+  // const addUsers = async (result) => {
+  //   const userRef = await setDoc(doc(db, "users", result.user?.uid), {
+  //     uid: result.user?.uid,
+  //     email: result.user?.email,
+  //     name: result.user?.displayName,
+  //     avatar: result.user?.photoURL,
+  //     imageProfile: "https://source.unsplash.com/random",
+  //   });
+  // };
 
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // const userProfile = usersList?.find(u => u.email === result.user.email)
-        console.log("Results:", result);
-        // if (result.user.email !== userProfile?.email) {
+        // let userProfile = usersList.find(
+        //   (u) => u?.email === result.user?.email
+        // );
+        // if (result.user?.email !== userProfile?.email) {
         //   addUsers(result);
+        //   setUsersList([...usersList, result.user]);
         // }
       })
       .catch((error) => {

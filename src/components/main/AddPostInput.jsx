@@ -13,6 +13,7 @@ import {
   collection,
   doc,
   serverTimestamp,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
@@ -26,7 +27,7 @@ const AddPostInput = () => {
   const postImageRef = useRef(null);
 
   const HandelAddPost = async () => {
-    // if (loadingPost) return;
+    if (loadingPost) return;
     setLoadingPost(true);
     try {
       const docRef = await addDoc(collection(db, "posts"), {
@@ -36,6 +37,10 @@ const AddPostInput = () => {
         timeStamp: serverTimestamp(),
         textInputPost: textInputPost,
       });
+
+      // await addDoc(collection(db, "users", userIn?.uid, "postsId"), {
+      //   postsId: [docRef.id],
+      // });
 
       const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
@@ -82,7 +87,7 @@ const AddPostInput = () => {
         placeholder="What's happening?"
         value={textInputPost}
         onChange={(e) => setTextInputPost(e.target.value)}
-        className="w-full h-16 py-2 min-h-[52px] px-3 pl-[71px] -mt-[55px] mb-9 outline-none text-xl rounded-xl bg-transparent placeholder:text-xl"
+        className="w-full text-start h-16 py-2 min-h-[52px] px-3 pl-[71px] -mt-[55px] mb-9 outline-none text-xl rounded-xl bg-transparent placeholder:text-xl"
       />
       {imagePost && (
         <div className="relative">
@@ -122,11 +127,20 @@ const AddPostInput = () => {
             height={25}
             className="text-blue-500 hover:cursor-pointer hover:text-blue-700"
           />
-          <GifIcon
-            width={25}
-            height={25}
-            className="text-blue-500 hover:cursor-pointer hover:text-blue-700"
-          />
+          <div onClick={() => postImageRef.current.click()}>
+            <GifIcon
+              width={25}
+              height={25}
+              className="text-blue-500 hover:cursor-pointer hover:text-blue-700"
+            />
+            <input
+              type="file"
+              hidden
+              ref={postImageRef}
+              onChange={(e) => HandelAddPostImage(e)}
+            />
+          </div>
+
           <CalendarIcon
             width={25}
             height={25}

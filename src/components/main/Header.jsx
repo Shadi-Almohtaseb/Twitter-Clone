@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { UserAuth } from "../../context/AuthContext";
 import { useRouter } from "next/router";
-import { ArrowDownLeftIcon, ArrowLeftIcon } from "@heroicons/react/20/solid";
+import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
 const Header = () => {

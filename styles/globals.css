@@ -22,3 +22,8 @@
   border-radius: 10px;
   background-color: gray;
 }
+textarea,
+.textInput {
+  text-align: start;
+  unicode-bidi: plaintext;
+}

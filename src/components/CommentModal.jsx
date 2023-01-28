@@ -16,7 +16,6 @@ import {
 } from "firebase/firestore";
 import { UserAuth } from "../context/AuthContext";
 import { FaceSmileIcon, PhotoIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/router";
 
 const CommentModal = () => {
   const { userIn } = UserAuth();
@@ -24,7 +23,6 @@ const CommentModal = () => {
   const [postId] = useRecoilState(postIdState);
   const [post, setPost] = useState();
   const [commentText, setCommentText] = useState("");
-  const router = useRouter();
 
   useEffect(() => {
     onSnapshot(doc(db, "posts", postId), (snapshot) => {
@@ -71,7 +69,7 @@ const CommentModal = () => {
             </span>
           </div>
         </div>
-        <div className="pl-[35px] ml-[25px] pb-10 text-gray-600 border-l-2">
+        <div className="pl-[35px] ml-[25px] pb-10 text-gray-600 border-l-2 textInput">
           {post?.data()?.textInputPost}
         </div>
         <div className="flex items-center justify-between">

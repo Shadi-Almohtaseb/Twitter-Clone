@@ -21,6 +21,7 @@ import {
   onSnapshot,
   setDoc,
 } from "firebase/firestore";
+import AuthenticationMark from "../../assets/Images/AuthenticationMark.png";
 
 const BottomComments = ({ comment, commentId, postId }) => {
   const { userIn } = UserAuth();
@@ -89,16 +90,20 @@ const BottomComments = ({ comment, commentId, postId }) => {
               className="rounded-full mr-3"
             ></Image>
           </div>
-          <div className="-mt-3">
+          <div className="-mt-3 flex items-center gap-2">
             <span className="hover:underline cursor-pointer font-semibold">
               {comment?.data().userName}{" "}
-            </span>
+            </span>{" "}
+            <div>
+              <Image src={AuthenticationMark} width={20} />
+            </div>
+            {"- "}
             <span className="text-gray-600">
               <Moment fromNow>{comment?.data().timeStamp?.toDate()}</Moment>
             </span>
           </div>
         </div>
-        <div className="pl-[50px] pb-4 break-words">
+        <div className="pl-[50px] pb-4 break-words textInput">
           {comment?.data().commentText}
         </div>
       </div>
