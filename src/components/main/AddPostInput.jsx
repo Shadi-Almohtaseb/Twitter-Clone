@@ -82,7 +82,7 @@ const AddPostInput = () => {
         placeholder="What's happening?"
         value={textInputPost}
         onChange={(e) => setTextInputPost(e.target.value)}
-        className="w-full h-16 py-2 min-h-[60px] px-3 pl-[71px] -mt-[55px] mb-9 outline-none text-xl rounded-xl bg-transparent placeholder:text-xl"
+        className="w-full h-16 py-2 min-h-[52px] px-3 pl-[71px] -mt-[55px] mb-9 outline-none text-xl rounded-xl bg-transparent placeholder:text-xl"
       />
       {imagePost && (
         <div className="relative">

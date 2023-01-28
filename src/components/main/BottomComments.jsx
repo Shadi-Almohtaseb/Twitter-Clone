@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   ChatBubbleOvalLeftEllipsisIcon,
@@ -14,17 +14,53 @@ import { useRecoilState } from "recoil";
 import { modalState } from "../../../atom/ModalAtom";
 import { db } from "../../../firebase.config";
 import { Modal } from "antd";
-import { deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
 
-const BottomComments = ({ comment, post }) => {
+const BottomComments = ({ comment, commentId, postId }) => {
   const { userIn } = UserAuth();
   const [likes, setLikes] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const [open, setOpen] = useRecoilState(modalState);
   const router = useRouter();
 
+  useEffect(() => {
+    onSnapshot(
+      collection(db, "posts", postId, "comments", commentId, "likes"),
+      (snapshot) => setLikes(snapshot.docs)
+    );
+  }, [db, commentId, postId]);
+
+  useEffect(() => {
+    setIsLiked(likes.findIndex((like) => like.id === userIn?.uid) !== -1);
+  }, [likes, userIn]);
+
+  const HandelLikeComment = async () => {
+    if (userIn) {
+      if (isLiked) {
+        await deleteDoc(
+          doc(db, "posts", postId, "comments", commentId, "likes", userIn?.uid)
+        );
+      } else {
+        await setDoc(
+          doc(db, "posts", postId, "comments", commentId, "likes", userIn?.uid),
+          {
+            userName: userIn.displayName,
+          }
+        );
+      }
+    } else {
+      router.push("/auth/signin");
+    }
+  };
+
   const { confirm } = Modal;
-  const showDeleteConfirm = (id) => {
+  const showDeleteConfirm = () => {
     confirm({
       title: "Are you sure delete this post?",
       icon: <ExclamationCircleFilled />,
@@ -32,7 +68,7 @@ const BottomComments = ({ comment, post }) => {
       okType: "danger",
       cancelText: "No",
       async onOk() {
-        deleteDoc(doc(db, "posts", post.id, "comments", id));
+        deleteDoc(doc(db, "posts", postId, "comments", commentId));
         // if (post.data().imagePost) {
         //   await deleteObject(ref(storage, `posts/${post.id}/image`));
         // }
@@ -86,7 +122,7 @@ const BottomComments = ({ comment, post }) => {
           <span className="hidden">0</span>
         </div>
         <div
-          // onClick={HandelLike}
+          onClick={() => HandelLikeComment(postId)}
           className="flex items-center justify-center cursor-pointer group  gap-2  hover:text-pink-500"
         >
           {!isLiked ? (
