@@ -1,7 +1,7 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import NewsItem from "./newsItem";
+import NewsItem from "./NewsItem";
 
 const WhatsHappeningWidget = ({ NewsData }) => {
   const [newsItemsCount, setNewsItemsCount] = useState(2);
