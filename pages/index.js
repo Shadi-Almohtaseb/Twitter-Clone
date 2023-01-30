@@ -14,7 +14,7 @@ export default function Home({ NewsData, UsersData }) {
       </Head>
       <main className="flex min-h-screen mx-auto ">
         <SideBar />
-        <Feed />
+        <Feed NewsData={NewsData} UsersData={UsersData} />
         <Widgets NewsData={NewsData} UsersData={UsersData} />
         <CommentModal />
       </main>

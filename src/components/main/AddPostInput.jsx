@@ -108,7 +108,7 @@ const AddPostInput = () => {
           loadingPost && "hidden"
         }`}
       >
-        <div className="flex items-center justify-center gap-5 pl-16">
+        <div className="flex items-center justify-center gap-5 md:pl-16 pl-4">
           <div onClick={() => postImageRef.current.click()}>
             <PhotoIcon
               width={25}
