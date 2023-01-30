@@ -67,20 +67,22 @@ const BottomProfileSetting = () => {
           <Image
             width={45}
             height={45}
-            src={userIn.photoURL}
+            src={userIn?.photoURL}
             alt="ProfileImage"
             className="rounded-full mr-3"
           ></Image>
         </div>
         <div className="flex sm:hidden lg:flex flex-col">
           <span className="font-bold sm:flex hidden">
-            {userIn.displayName?.slice(0, 13) + "..."}
+            {userIn?.displayName?.slice(0, 13) + "..."}
           </span>
-          <span className="font-bold sm:hidden flex">{userIn.displayName}</span>
+          <span className="font-bold sm:hidden flex">
+            {userIn?.displayName}
+          </span>
           <span className="text-gray-700 sm:flex hidden">
-            {userIn.email?.slice(0, 16) + "..."}
+            {userIn?.email?.slice(0, 16) + "..."}
           </span>
-          <span className="text-gray-700 sm:hidden flex">{userIn.email}</span>
+          <span className="text-gray-700 sm:hidden flex">{userIn?.email}</span>
         </div>
         <div className="hidden lg:flex">
           <EllipsisHorizontalIcon height={26} width={26} />
