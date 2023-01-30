@@ -12,8 +12,8 @@ const MobileRightBar = ({ onClose, open, NewsData, UsersData }) => {
         onClose={onClose}
         open={open}
       >
-        <WhatsHappeningWidget NewsData={NewsData.articles} />
-        <WhoToFollowWidget UsersData={UsersData.results} />
+        <WhatsHappeningWidget NewsData={NewsData?.articles} />
+        <WhoToFollowWidget UsersData={UsersData?.results} />
       </Drawer>
     </div>
   );
