@@ -3,14 +3,41 @@ import React, { useState } from "react";
 import { SparklesIcon } from "@heroicons/react/24/outline";
 import { UserAuth } from "../../context/AuthContext";
 import { useRouter } from "next/router";
-import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+import {
+  ArrowLeftIcon,
+  Bars3BottomLeftIcon,
+  Bars3BottomRightIcon,
+  Bars3Icon,
+} from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { Button } from "antd";
+import MobileSideBarMenu from "./MobileSideBarMenu";
+import MobileRightBar from "./MobileRightBar";
 
-const Header = () => {
+const Header = ({ NewsData, UsersData }) => {
   const [feedToggle, setFeedToggle] = useState(true);
+  const [openSideBar, setOpenSideBar] = useState(false);
+  const [openRightBar, setOpenRightBar] = useState(false);
+
   const { userIn } = UserAuth();
   const router = useRouter();
   const { Post_Id } = router.query;
+
+  const showSideBarDrawer = () => {
+    setOpenSideBar(true);
+  };
+
+  const onSideBarClose = () => {
+    setOpenSideBar(false);
+  };
+
+  const showRightBarDrawer = () => {
+    setOpenRightBar(true);
+  };
+
+  const onRightBarClose = () => {
+    setOpenRightBar(false);
+  };
 
   const OnTapChange = () => {
     setFeedToggle(!feedToggle);
@@ -31,14 +58,45 @@ const Header = () => {
               <span className="text-xl font-semibold">Tweet</span>
             </div>
           ) : (
-            <span className="font-bold text-xl">Home</span>
+            <div className="flex items-center gap-1">
+              <Button
+                onClick={showSideBarDrawer}
+                className="flex sm: border-none mt-1"
+              >
+                <Bars3BottomLeftIcon
+                  width={25}
+                  height={25}
+                  className="flex sm:hidden"
+                ></Bars3BottomLeftIcon>
+              </Button>
+              <MobileSideBarMenu open={openSideBar} onClose={onSideBarClose} />
+              <span className="font-semibold text-lg">Home</span>
+            </div>
           )}
           {userIn ? (
-            <SparklesIcon
-              hanging={40}
-              width={40}
-              className="p-2 hover:bg-gray-200 rounded-full cursor-pointer"
-            />
+            <div>
+              <SparklesIcon
+                hanging={40}
+                width={40}
+                className="p-2 hover:bg-gray-200 rounded-full cursor-pointer hidden md:flex"
+              />
+              <Button
+                onClick={showRightBarDrawer}
+                className="flex sm: border-none mt-1"
+              >
+                <Bars3BottomRightIcon
+                  hanging={25}
+                  width={25}
+                  className=" hover:bg-gray-200 rounded-full cursor-pointer md:hidden flex"
+                />
+              </Button>
+              <MobileRightBar
+                open={openRightBar}
+                onClose={onRightBarClose}
+                NewsData={NewsData}
+                UsersData={UsersData}
+              />
+            </div>
           ) : (
             <div className="flex items-center justify-center mt-2">
               <button
@@ -55,7 +113,7 @@ const Header = () => {
             </div>
           )}
         </div>
-        <div className="flex items-center justify-between mt-3 ">
+        <div className="flex items-center justify-between mt-1 ">
           <span
             onClick={OnTapChange}
             className={`w-[50%] py-3 text-lg flex items-center justify-center hover:cursor-pointer hover:bg-gray-200 hover:backdrop-blur-sm hover:bg-opacity-70 transition-all  ${
