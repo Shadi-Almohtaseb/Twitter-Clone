@@ -59,18 +59,26 @@ const Header = ({ NewsData, UsersData }) => {
             </div>
           ) : (
             <div className="flex items-center gap-1">
-              <Button
-                onClick={showSideBarDrawer}
-                className="flex sm: border-none mt-1"
-              >
-                <Bars3BottomLeftIcon
-                  width={25}
-                  height={25}
-                  className="flex sm:hidden"
-                ></Bars3BottomLeftIcon>
-              </Button>
-              <MobileSideBarMenu open={openSideBar} onClose={onSideBarClose} />
-              <span className="font-semibold text-lg">Home</span>
+              {userIn ? (
+                <div>
+                  <Button
+                    onClick={showSideBarDrawer}
+                    className="flex sm: border-none mt-1"
+                  >
+                    <Bars3BottomLeftIcon
+                      width={25}
+                      height={25}
+                      className="flex sm:hidden"
+                    ></Bars3BottomLeftIcon>
+                  </Button>
+                  <MobileSideBarMenu
+                    open={openSideBar}
+                    onClose={onSideBarClose}
+                  />
+                </div>
+              ) : (
+                <span className="font-semibold text-lg">Home</span>
+              )}
             </div>
           )}
           {userIn ? (
