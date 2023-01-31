@@ -9,6 +9,7 @@ import {
 import { HeartIcon as FilledHeartIcon } from "@heroicons/react/20/solid";
 import { UserAuth } from "../../context/AuthContext";
 import {
+  arrayRemove,
   collection,
   deleteDoc,
   doc,
@@ -16,6 +17,7 @@ import {
   orderBy,
   query,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "../../../firebase.config";
 import { useRouter } from "next/router";
@@ -75,6 +77,17 @@ const BottomPostActions = ({ post }) => {
     }
   };
 
+  // useEffect(
+  //   () =>
+  //     onSnapshot(
+  //         doc(db, "us", post.id, "comments"),
+  //       (snapshot) => {
+  //         setComments(snapshot.docs);
+  //       }
+  //     ),
+  //   [db]
+  // );
+
   const { confirm } = Modal;
 
   const showDeleteConfirm = () => {
@@ -86,6 +99,11 @@ const BottomPostActions = ({ post }) => {
       cancelText: "No",
       async onOk() {
         deleteDoc(doc(db, "posts", post.id));
+        await updateDoc(doc(db, "users", userIn?.uid), {
+          userPosts: arrayRemove(post.id),
+        });
+        // arrayRemove(doc(db, "users", userIn?.uid, "userPosts", post.id));
+        // deleteDoc(doc(db, "users", userIn?.uid, "userPosts", post.id));
         if (post?.data()?.imagePost) {
           deleteObject(ref(storage, `posts/${post.id}/image`));
         }

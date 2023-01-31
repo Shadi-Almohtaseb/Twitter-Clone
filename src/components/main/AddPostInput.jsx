@@ -10,6 +10,7 @@ import { UserAuth } from "../../context/AuthContext";
 import { db, storage } from "../../../firebase.config";
 import {
   addDoc,
+  arrayUnion,
   collection,
   doc,
   serverTimestamp,
@@ -38,10 +39,6 @@ const AddPostInput = () => {
         textInputPost: textInputPost,
       });
 
-      // await addDoc(collection(db, "users", userIn?.uid, "postsId"), {
-      //   postsId: [docRef.id],
-      // });
-
       const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
       if (imagePost) {
@@ -52,6 +49,10 @@ const AddPostInput = () => {
           });
         });
       }
+
+      await updateDoc(doc(db, "users", userIn?.uid), {
+        userPosts: arrayUnion(docRef.id),
+      });
     } catch (e) {
       console.error("Error adding document: ", e);
     }
