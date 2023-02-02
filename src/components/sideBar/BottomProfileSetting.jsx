@@ -9,8 +9,10 @@ import {
   Cog6ToothIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
 
 const BottomProfileSetting = () => {
+  const router = useRouter();
   const { HandelSignOut, userIn } = UserAuth();
   const signOut = async () => {
     await HandelSignOut();
@@ -20,10 +22,11 @@ const BottomProfileSetting = () => {
     {
       key: "1",
       label: (
-        <div className="flex items-center justify-between px-6 py-2 gap-3">
-          <button onClick={{}} className="text-lg">
-            Profile
-          </button>
+        <div
+          onClick={() => router.push(`/profile/${userIn?.uid}`)}
+          className="flex items-center justify-between px-6 py-2 gap-3"
+        >
+          <button className="text-lg">Profile</button>
           <UserIcon width={22} height={22} />
         </div>
       ),
