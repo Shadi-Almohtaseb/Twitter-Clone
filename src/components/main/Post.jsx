@@ -67,10 +67,11 @@ const Post = ({ post }) => {
     {
       key: "2",
       label: (
-        <div className="flex items-center justify-between px-3 py-1 gap-5">
-          <button onClick={{}} className="text-lg">
-            Visit post
-          </button>
+        <div
+          onClick={() => router.push(`/post/${post.id}`)}
+          className="flex items-center justify-between px-3 py-1 gap-5"
+        >
+          <button className="text-lg">Visit post</button>
           <ChevronUpIcon width={22} height={22} />
         </div>
       ),
@@ -85,16 +86,19 @@ const Post = ({ post }) => {
     >
       <div className="flex items-center justify-between py-4 px-4">
         <div className="flex items-center">
-          <div>
+          <div onClick={() => router.push(`/profile/${post?.data()?.uid}`)}>
             <Image
               width={45}
               height={45}
               src={post?.data()?.userImage}
-              className="rounded-full mr-3"
+              className="rounded-full mr-3 cursor-pointer"
             ></Image>
           </div>
           <div className="flex items-center">
-            <span className="hover:underline cursor-pointer font-semibold pr-1 sm:flex hidden">
+            <span
+              onClick={() => router.push(`/profile/${post?.data()?.uid}`)}
+              className="hover:underline cursor-pointer font-semibold pr-1 sm:flex hidden"
+            >
               {post?.data()?.name}{" "}
             </span>
             <span className="hover:underline cursor-pointer font-semibold pr-1 sm:hidden flex">

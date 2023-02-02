@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { SparklesIcon } from "@heroicons/react/24/outline";
+import {
+  InformationCircleIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 import { UserAuth } from "../../context/AuthContext";
 import { useRouter } from "next/router";
 import {
@@ -61,14 +64,16 @@ const Header = ({ NewsData, UsersData }) => {
             <div className="flex items-center gap-1">
               {userIn ? (
                 <div>
+                  <span className="font-semibold text-lg sm:flex hidden md:-mt-7">
+                    Home
+                  </span>
                   <Button
                     onClick={showSideBarDrawer}
-                    className="flex sm: border-none mt-1"
+                    className="flex sm:hidden border-none mt-1"
                   >
                     <Bars3BottomLeftIcon
                       width={25}
                       height={25}
-                      className="flex sm:hidden"
                     ></Bars3BottomLeftIcon>
                   </Button>
                   <MobileSideBarMenu
@@ -92,7 +97,7 @@ const Header = ({ NewsData, UsersData }) => {
                 onClick={showRightBarDrawer}
                 className="flex sm: border-none mt-1"
               >
-                <Bars3BottomRightIcon
+                <InformationCircleIcon
                   hanging={25}
                   width={25}
                   className=" hover:bg-gray-200 rounded-full cursor-pointer md:hidden flex"

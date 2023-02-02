@@ -1,4 +1,3 @@
-"use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   GoogleAuthProvider,
@@ -8,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../../firebase.config";
 import { useRouter } from "next/router";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -24,18 +23,15 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [userIn]);
 
-  //   useEffect(() => {
-  //     const query = ref(db, "users");
-  //     return onValue(query, (snapshot) => {
-  //       const data = snapshot.val();
+  useEffect(() => {
+    onSnapshot(
+      collection(db, "users"),
 
-  //       if (snapshot.exists()) {
-  //         Object.values(data).map((item) => {
-  //           setUsersList((usersList) => [...usersList, item]);
-  //         });
-  //       }
-  //     });
-  //   }, []);
+      (snapshot) => {
+        setUsersList([...usersList, snapshot.docs]);
+      }
+    );
+  }, []);
 
   const addUsers = async (result) => {
     const userRef = await setDoc(doc(db, "users", result.user?.uid), {
@@ -51,9 +47,9 @@ export const AuthContextProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        let userProfile = usersList.find(
-          (u) => u?.email === result.user?.email
-        );
+        let userProfile = usersList
+          ?.data()
+          .find((u) => u?.email === result.user?.email);
         if (result.user?.email !== userProfile?.email) {
           addUsers(result);
           setUsersList([...usersList, result.user]);
