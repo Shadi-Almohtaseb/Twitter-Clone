@@ -14,7 +14,7 @@ import React from "react";
 import Image from "next/image";
 import BottomProfileSetting from "../sideBar/BottomProfileSetting";
 
-const MobileSideBarMenu = ({ open, onClose }) => {
+const MobileSideBarMenu = ({ open, onClose, setOpenSideBar }) => {
   let Items = [
     { title: "Home", icon: HomeIcon },
     { title: "Explore", icon: HashtagIcon },
@@ -45,7 +45,15 @@ const MobileSideBarMenu = ({ open, onClose }) => {
             ></Image>
             <div className="">
               {Items.map((Item, index) => {
-                return <MenuItem item={Item} Icon={Item.icon} key={index} />;
+                // console.log(Item.ref);
+                return (
+                  <MenuItem
+                    item={Item}
+                    Icon={Item.icon}
+                    key={index}
+                    setOpenSideBar={setOpenSideBar}
+                  />
+                );
               })}
             </div>
           </div>

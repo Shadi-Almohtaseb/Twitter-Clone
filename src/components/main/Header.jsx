@@ -77,6 +77,7 @@ const Header = ({ NewsData, UsersData }) => {
                     ></Bars3BottomLeftIcon>
                   </Button>
                   <MobileSideBarMenu
+                    setOpenSideBar={setOpenSideBar}
                     open={openSideBar}
                     onClose={onSideBarClose}
                   />

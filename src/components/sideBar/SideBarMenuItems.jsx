@@ -1,6 +1,12 @@
 import MenuItem from "./MenuItem";
-import { HashtagIcon, HomeIcon } from "@heroicons/react/20/solid";
 import {
+  HomeIcon as ActiveHomeIcon,
+  BookmarkIcon as ActiveBookmarkIcon,
+  UserIcon as ActiveUserIcon,
+} from "@heroicons/react/20/solid";
+import {
+  HomeIcon,
+  HashtagIcon,
   BellIcon,
   BookmarkIcon,
   ClipboardDocumentListIcon,
@@ -11,14 +17,24 @@ import {
 import { UserAuth } from "../../context/AuthContext";
 
 let Items = [
-  { title: "Home", icon: HomeIcon },
-  { title: "Explore", icon: HashtagIcon },
-  { title: "Notification", icon: BellIcon },
-  { title: "Messages", icon: EnvelopeIcon },
-  { title: "BookMarks", icon: BookmarkIcon },
-  { title: "Lists", icon: ClipboardDocumentListIcon },
-  { title: "Profile", icon: UserIcon },
-  { title: "More", icon: EllipsisHorizontalCircleIcon },
+  { title: "Home", reference: "/", icon: HomeIcon, activeIcon: ActiveHomeIcon },
+  { title: "Explore", reference: "", icon: HashtagIcon },
+  { title: "Notification", reference: "", icon: BellIcon },
+  { title: "Messages", reference: "", icon: EnvelopeIcon },
+  {
+    title: "BookMarks",
+    reference: "/saved_posts",
+    icon: BookmarkIcon,
+    activeIcon: ActiveBookmarkIcon,
+  },
+  { title: "Lists", reference: "", icon: ClipboardDocumentListIcon },
+  {
+    title: "Profile",
+    reference: "/profile/[user_id]",
+    icon: UserIcon,
+    activeIcon: ActiveUserIcon,
+  },
+  { title: "More", reference: "", icon: EllipsisHorizontalCircleIcon },
 ];
 
 const SideBarMenuItems = () => {
@@ -29,11 +45,25 @@ const SideBarMenuItems = () => {
       {!userIn
         ? Items.filter((_, index) => index <= 1 && !userIn).map(
             (Item, index) => {
-              return <MenuItem item={Item} Icon={Item.icon} key={index} />;
+              return (
+                <MenuItem
+                  item={Item}
+                  ActiveIcon={Item.activeIcon}
+                  Icon={Item.icon}
+                  key={index}
+                />
+              );
             }
           )
         : Items.map((Item, index) => {
-            return <MenuItem item={Item} Icon={Item.icon} key={index} />;
+            return (
+              <MenuItem
+                item={Item}
+                ActiveIcon={Item.activeIcon}
+                Icon={Item.icon}
+                key={index}
+              />
+            );
           })}
     </div>
   );
