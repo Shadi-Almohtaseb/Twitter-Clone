@@ -66,27 +66,29 @@ const MySavedPosts = ({ NewsData, UsersData }) => {
             >
               <ArrowLeftIcon hanging={30} width={30} />
             </Link>
-            <div className="flex  flex-col">
-              <span className="text-xl font-bold">Saved Posts</span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold">Saved Tweets</span>
               <span
                 className={`text-gray-700 ${
-                  savedPostId.length === 0 && "hidden"
+                  savedPostId?.length === 0 ||
+                  (savedPostId?.length === undefined && "hidden")
                 }`}
               >
-                {savedPostId.length}
-                {savedPostId.length >= 2 ? " Tweets" : " Tweet"}
+                {savedPostId?.length}
+                {savedPostId?.length >= 2 ? " Tweets" : " Tweet"}
               </span>
             </div>
           </div>
-          {savedPostId.length <= 0 && (
-            <div className="flex items-center justify-center flex-col mt-10">
-              <span className="text-2xl">No posts are saved yet!</span>
-              <Image src={emptyImage} alt="img" width={400} height={400} />
-            </div>
-          )}
+          {savedPostId?.length <= 0 ||
+            (savedPostId?.length === undefined && (
+              <div className="flex items-center justify-center flex-col mt-10">
+                <span className="text-2xl">No posts are saved yet!</span>
+                <Image src={emptyImage} alt="img" width={400} height={400} />
+              </div>
+            ))}
           <AnimatePresence>
             {posts
-              .filter((post, index) => savedPostId.includes(post.id))
+              .filter((post, index) => savedPostId?.includes(post.id))
               .map((post) => {
                 return (
                   <motion.div
