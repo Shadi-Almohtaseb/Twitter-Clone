@@ -50,15 +50,16 @@ const Post = ({ post }) => {
       ),
     [db]
   );
+  if (userIn) {
+    useEffect(
+      () =>
+        onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
+          setSavedPost(snapshot?.data()?.userSavedPosts);
+        }),
 
-  useEffect(
-    () =>
-      onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
-        setSavedPost(snapshot?.data()?.userSavedPosts);
-      }),
-
-    [db]
-  );
+      [db]
+    );
+  }
 
   const HandelSavePost = async () => {
     await updateDoc(doc(db, "users", userIn?.uid), {
@@ -133,7 +134,13 @@ const Post = ({ post }) => {
     >
       <div className="flex items-center justify-between py-4 px-4">
         <div className="flex items-center">
-          <div onClick={() => router.push(`/profile/${post?.data()?.uid}`)}>
+          <div
+            onClick={() => {
+              userIn
+                ? router.push(`/profile/${post?.data()?.uid}`)
+                : router.push("/auth/signin");
+            }}
+          >
             <Image
               width={45}
               height={45}
@@ -143,7 +150,11 @@ const Post = ({ post }) => {
           </div>
           <div className="flex items-center">
             <span
-              onClick={() => router.push(`/profile/${post?.data()?.uid}`)}
+              onClick={() => {
+                userIn
+                  ? router.push(`/profile/${post?.data()?.uid}`)
+                  : router.push("/auth/signin");
+              }}
               className="hover:underline cursor-pointer font-semibold pr-1 sm:flex hidden"
             >
               {post?.data()?.name}{" "}
@@ -168,7 +179,11 @@ const Post = ({ post }) => {
             </span>
           </div>
         </div>
-        <div className="p-[7px] hover:bg-gray-200 rounded-full cursor-pointer">
+        <div
+          className={`p-[7px] hover:bg-gray-200 rounded-full cursor-pointer ${
+            !userIn && "hidden"
+          }`}
+        >
           <Tooltip placement="bottom" color="#37a4e0" title="Settings">
             <Dropdown
               menu={{
