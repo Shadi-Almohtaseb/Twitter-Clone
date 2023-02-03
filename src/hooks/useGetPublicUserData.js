@@ -6,16 +6,17 @@ import { UserAuth } from "../context/AuthContext";
 const useGetPublicUserData = () => {
   const UserData = useRef();
   const { userIn } = UserAuth();
-  if (userIn) {
-    useEffect(() => {
+
+  useEffect(() => {
+    if (userIn) {
       const getUserData = async () => {
         const docRef = doc(db, "users", userIn?.uid);
         const docSnap = await getDoc(docRef);
         UserData.current = docSnap?.data();
       };
       getUserData();
-    }, []);
-  }
+    }
+  }, []);
 
   return UserData.current;
 };
