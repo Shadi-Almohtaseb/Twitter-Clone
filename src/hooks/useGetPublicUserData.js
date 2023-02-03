@@ -1,16 +1,15 @@
 import { doc, getDoc } from "firebase/firestore";
-import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { db } from "../../firebase.config";
+import { UserAuth } from "../context/AuthContext";
 
-const useGetUserData = () => {
+const useGetPublicUserData = () => {
   const UserData = useRef();
-  const router = useRouter();
-  const { user_id } = router.query;
+  const { userIn } = UserAuth();
 
   useEffect(() => {
     const getUserData = async () => {
-      const docRef = doc(db, "users", user_id);
+      const docRef = doc(db, "users", userIn?.uid);
       const docSnap = await getDoc(docRef);
       UserData.current = docSnap?.data();
     };
@@ -19,4 +18,4 @@ const useGetUserData = () => {
 
   return UserData.current;
 };
-export { useGetUserData };
+export { useGetPublicUserData };
