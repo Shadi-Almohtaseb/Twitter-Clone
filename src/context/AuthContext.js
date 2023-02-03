@@ -47,12 +47,18 @@ export const AuthContextProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        let userProfile = usersList
-          ?.data()
-          .find((u) => u?.email === result.user?.email);
+        console.log("result.user?.emailTOP", result.user?.email);
+        const userProfile = usersList?.find(
+          (u) => u?.email === result.user?.email
+        );
+
+        console.log("userProfile", userProfile);
+        console.log("result.user?.email", result.user?.email);
+
         if (result.user?.email !== userProfile?.email) {
           addUsers(result);
           setUsersList([...usersList, result.user]);
+          console.log("User added");
         }
       })
       .catch((error) => {

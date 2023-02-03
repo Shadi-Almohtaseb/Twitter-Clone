@@ -11,14 +11,12 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { UserAuth } from "../../context/AuthContext";
 
 const BottomNavigationBar = () => {
   const { userIn } = UserAuth();
   const router = useRouter();
-  console.log(router.pathname);
-  // const [active, setActive] = useState("Home");
 
   return (
     <div className="fixed bottom-0 flex sm:hidden justify-around items-center h-[7vh] bg-gray-100 w-full backdrop-blur-lg bg-opacity-60">
