@@ -50,16 +50,14 @@ const Post = ({ post }) => {
       ),
     [db]
   );
-  if (userIn) {
-    useEffect(
-      () =>
-        onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
-          setSavedPost(snapshot?.data()?.userSavedPosts);
-        }),
 
-      [db]
-    );
-  }
+  useEffect(() => {
+    if (userIn) {
+      onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
+        setSavedPost(snapshot?.data()?.userSavedPosts);
+      });
+    }
+  }, [db]);
 
   const HandelSavePost = async () => {
     await updateDoc(doc(db, "users", userIn?.uid), {
