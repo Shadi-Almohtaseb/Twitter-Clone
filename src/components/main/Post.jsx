@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import Moment from "react-moment";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebase.config";
 import BottomComments from "./BottomComments";
 import BottomPostActions from "./BottomPostActions";
@@ -13,14 +22,18 @@ import Link from "next/link";
 import { Dropdown, Tooltip } from "antd";
 import {
   BookmarkIcon,
+  BookmarkSlashIcon,
   ChevronUpIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
 import AuthenticationMark from "../../assets/Images/AuthenticationMark.png";
+import { useGetPublicUserData } from "../../hooks/useGetPublicUserData";
 
 const Post = ({ post }) => {
   const [comments, setComments] = useState([]);
+  const [savedPost, setSavedPost] = useState([]);
   const { userIn } = UserAuth();
+  const UserData = useGetPublicUserData();
   const router = useRouter();
   const { Post_Id } = router.query;
 
@@ -38,15 +51,49 @@ const Post = ({ post }) => {
     [db]
   );
 
+  useEffect(
+    () =>
+      onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
+        setSavedPost(snapshot?.data()?.userSavedPosts);
+      }),
+
+    [db]
+  );
+
+  const HandelSavePost = async () => {
+    await updateDoc(doc(db, "users", userIn?.uid), {
+      userSavedPosts: arrayUnion(post.id),
+    });
+  };
+
+  const HandelUnSavePost = async () => {
+    await updateDoc(doc(db, "users", userIn?.uid), {
+      userSavedPosts: arrayRemove(post.id),
+    });
+  };
+
   const items = [
     {
       key: "0",
       label: (
-        <div className="flex items-center justify-between px-3 py-1 gap-5">
-          <button onClick={{}} className="text-lg">
-            Save
-          </button>
-          <BookmarkIcon width={22} height={22} />
+        <div>
+          {savedPost?.find((postId) => postId === post.id) ? (
+            <div
+              onClick={HandelUnSavePost}
+              className="flex items-center justify-between px-3 py-1 gap-5"
+            >
+              <button className="text-lg">unSave</button>
+              <BookmarkSlashIcon width={22} height={22} />
+            </div>
+          ) : (
+            <div
+              onClick={HandelSavePost}
+              className="flex items-center justify-between px-3 py-1 gap-5"
+            >
+              <button className="text-lg">Save</button>
+              <BookmarkIcon width={22} height={22} />
+            </div>
+          )}
         </div>
       ),
     },
@@ -101,7 +148,10 @@ const Post = ({ post }) => {
             >
               {post?.data()?.name}{" "}
             </span>
-            <span className="hover:underline cursor-pointer font-semibold pr-1 sm:hidden flex">
+            <span
+              onClick={() => router.push(`/profile/${post?.data()?.uid}`)}
+              className="hover:underline cursor-pointer font-semibold pr-1 sm:hidden flex"
+            >
               {post?.data()?.name.slice(0, 11) + "..."}{" "}
             </span>
             <div>

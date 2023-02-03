@@ -77,17 +77,6 @@ const BottomPostActions = ({ post }) => {
     }
   };
 
-  // useEffect(
-  //   () =>
-  //     onSnapshot(
-  //         doc(db, "us", post.id, "comments"),
-  //       (snapshot) => {
-  //         setComments(snapshot.docs);
-  //       }
-  //     ),
-  //   [db]
-  // );
-
   const { confirm } = Modal;
 
   const showDeleteConfirm = () => {
@@ -102,8 +91,6 @@ const BottomPostActions = ({ post }) => {
         await updateDoc(doc(db, "users", userIn?.uid), {
           userPosts: arrayRemove(post.id),
         });
-        // arrayRemove(doc(db, "users", userIn?.uid, "userPosts", post.id));
-        // deleteDoc(doc(db, "users", userIn?.uid, "userPosts", post.id));
         if (post?.data()?.imagePost) {
           deleteObject(ref(storage, `posts/${post.id}/image`));
         }
