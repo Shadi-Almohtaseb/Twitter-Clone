@@ -69,8 +69,9 @@ const MySavedPosts = ({ NewsData, UsersData }) => {
               <span className="text-xl font-bold">Saved Tweets</span>
               <span
                 className={`text-gray-700 ${
-                  savedPostId?.length === 0 ||
-                  (savedPostId?.length === undefined && "hidden")
+                  (savedPostId?.length === 0 ||
+                    savedPostId?.length === undefined) &&
+                  "hidden"
                 }`}
               >
                 {savedPostId?.length}
@@ -78,13 +79,12 @@ const MySavedPosts = ({ NewsData, UsersData }) => {
               </span>
             </div>
           </div>
-          {savedPostId?.length <= 0 ||
-            (savedPostId?.length === undefined && (
-              <div className="flex items-center justify-center flex-col mt-10">
-                <span className="text-2xl">No posts are saved yet!</span>
-                <Image src={emptyImage} alt="img" width={400} height={400} />
-              </div>
-            ))}
+          {(savedPostId?.length <= 0 || savedPostId?.length === undefined) && (
+            <div className="flex items-center justify-center flex-col mt-10">
+              <span className="text-2xl">No posts are saved yet!</span>
+              <Image src={emptyImage} alt="img" width={400} height={400} />
+            </div>
+          )}
           <AnimatePresence>
             {posts
               .filter((post, index) => savedPostId?.includes(post.id))
