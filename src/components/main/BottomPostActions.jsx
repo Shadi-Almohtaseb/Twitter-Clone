@@ -70,6 +70,7 @@ const BottomPostActions = ({ post }) => {
       } else {
         await setDoc(doc(db, "posts", post.id, "likes", userIn?.uid), {
           userName: userIn.displayName,
+          uid: userIn.uid,
         });
       }
     } else {
