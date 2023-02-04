@@ -66,6 +66,7 @@ const MyProfile = ({ NewsData, UsersData }) => {
               })}
           </AnimatePresence>
           <BottomNavigationBar />
+          <div className="h-5"></div>
         </div>
         <Widgets NewsData={NewsData} UsersData={UsersData} />
         <CommentModal />
