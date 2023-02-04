@@ -14,7 +14,11 @@ const ProfileHeader = () => {
         <ArrowLeftIcon hanging={30} width={30} />
       </Link>
       <div className="flex  flex-col">
-        <span className="text-xl font-bold">{UserData?.name}</span>
+        <span className="text-xl font-bold">
+          {UserData?.name.length >= 20
+            ? UserData?.name.slice(0, 20) + "..."
+            : UserData?.name}
+        </span>
         <span className="text-gray-700">
           {UserData?.userPosts?.length}
           {UserData?.userPosts?.length >= 2 ? " Tweets" : " Tweet"}

@@ -188,8 +188,3 @@ const BottomPostActions = ({ post }) => {
 };
 
 export default BottomPostActions;
-/*
-<Tooltip placement="rightBottom" title={text}>
-        <Button>RB</Button>
-      </Tooltip>
-       */

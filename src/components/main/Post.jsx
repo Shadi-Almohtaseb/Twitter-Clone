@@ -28,8 +28,10 @@ import {
 } from "@heroicons/react/24/outline";
 import AuthenticationMark from "../../assets/Images/AuthenticationMark.png";
 import { useGetPublicUserData } from "../../hooks/useGetPublicUserData";
+import LikesSideBar from "./LikesSideBar";
 
 const Post = ({ post }) => {
+  const [open, setOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [savedPost, setSavedPost] = useState([]);
   const { userIn } = UserAuth();
@@ -37,6 +39,13 @@ const Post = ({ post }) => {
   const router = useRouter();
   const [api, contextHolder] = notification.useNotification();
   const { Post_Id } = router.query;
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const openNotificationWithIconSuccess = (type) => {
     api[type]({
@@ -116,11 +125,15 @@ const Post = ({ post }) => {
     {
       key: "1",
       label: (
-        <div className="flex items-center justify-between px-3 py-1 gap-5">
-          <button onClick={{}} className="text-lg">
-            Show Likes
-          </button>
-          <HeartIcon width={22} height={22} />
+        <div>
+          <div
+            onClick={showDrawer}
+            className="flex items-center justify-between px-3 py-1 gap-5"
+          >
+            <button className="text-lg">Show Likes</button>
+            <HeartIcon width={22} height={22} />
+          </div>
+          <LikesSideBar open={open} onClose={onClose} post={post} />
         </div>
       ),
     },
