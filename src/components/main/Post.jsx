@@ -7,6 +7,7 @@ import {
   arrayUnion,
   collection,
   doc,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -34,8 +35,9 @@ const Post = ({ post }) => {
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [savedPost, setSavedPost] = useState([]);
+  const [userData, setUserData] = useState();
   const { userIn } = UserAuth();
-  const UserData = useGetPublicUserData();
+  // const UserData = useGetPublicUserData();
   const router = useRouter();
   const [api, contextHolder] = notification.useNotification();
   const { Post_Id } = router.query;
@@ -96,6 +98,17 @@ const Post = ({ post }) => {
       userSavedPosts: arrayRemove(post.id),
     });
   };
+
+  useEffect(() => {
+    if (userIn) {
+      const getUserData = async () => {
+        const docRef = doc(db, "users", post?.data()?.uid);
+        const docSnap = await getDoc(docRef);
+        setUserData(docSnap?.data());
+      };
+      getUserData();
+    }
+  }, [db, userData]);
 
   const items = [
     {
@@ -177,33 +190,32 @@ const Post = ({ post }) => {
               className="rounded-full mr-3 cursor-pointer"
             ></Image>
           </div>
-          <div className="flex items-center">
-            <span
-              onClick={() => {
-                userIn
-                  ? router.push(`/profile/${post?.data()?.uid}`)
-                  : router.push("/auth/signin");
-              }}
-              className="hover:underline cursor-pointer font-semibold pr-1 sm:flex hidden"
-            >
-              {post?.data()?.name}{" "}
-            </span>
-            <span
-              onClick={() => router.push(`/profile/${post?.data()?.uid}`)}
-              className="hover:underline cursor-pointer font-semibold pr-1 sm:hidden flex"
-            >
-              {post?.data()?.name.slice(0, 11) + "..."}{" "}
-            </span>
-            <div>
-              <Image src={AuthenticationMark} width={20} />
-            </div>{" "}
-            <span className="text-gray-500 pl-2 hidden lg:flex">
-              @
-              {post?.data()?.name.toLowerCase().replace(/\s/g, "").slice(0, 8) +
-                "..."}
-              {" - "}
-            </span>
-            <span className="text-gray-600 pl-1">
+          <div className="flex flex-col">
+            <div className="flex items-center">
+              <span
+                onClick={() => {
+                  userIn
+                    ? router.push(`/profile/${post?.data()?.uid}`)
+                    : router.push("/auth/signin");
+                }}
+                className="hover:underline cursor-pointer font-semibold pr-1"
+              >
+                {post?.data()?.name.length > 20
+                  ? post?.data()?.name.slice(0, 20) + "..."
+                  : post?.data()?.name}{" "}
+              </span>
+              <div
+                className={`${
+                  userData?.userPosts?.length >= 3 ? "flex" : "hidden"
+                }`}
+              >
+                <Image src={AuthenticationMark} width={18} />
+              </div>{" "}
+              <span className="text-gray-500 pl-2 hidden lg:flex">
+                @{post?.data()?.name.toLowerCase().replace(/\s/g, "")}
+              </span>
+            </div>
+            <span className="text-gray-600 text-sm">
               <Moment fromNow>{post?.data()?.timeStamp?.toDate()}</Moment>
             </span>
           </div>

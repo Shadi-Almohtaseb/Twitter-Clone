@@ -2,9 +2,11 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import React from "react";
 import { useGetUserData } from "../../src/hooks/useGetUserData";
+import AuthenticationMark from "../../src/assets/Images/AuthenticationMark.png";
 
 const ProfileInfo = () => {
   const UserData = useGetUserData();
+
   return (
     <div className="max-h-[65vh] bg-white">
       <div className="relative">
@@ -33,7 +35,17 @@ const ProfileInfo = () => {
         </span>
       </div>
       <div className="flex flex-col my-5 mx-7">
-        <span className="text-xl font-bold">{UserData?.name}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xl font-bold">{UserData?.name}</span>
+          <div
+            className={`${
+              UserData?.userPosts?.length >= 3 ? "flex" : "hidden"
+            }`}
+          >
+            {" "}
+            <Image src={AuthenticationMark} width={18} />
+          </div>
+        </div>
         <span className="text-gray-700">
           @{UserData?.name.toLowerCase().replace(/\s/g, "")}
         </span>

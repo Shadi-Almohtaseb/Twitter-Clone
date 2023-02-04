@@ -18,16 +18,18 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   setDoc,
 } from "firebase/firestore";
 import AuthenticationMark from "../../assets/Images/AuthenticationMark.png";
 
-const BottomComments = ({ comment, commentId, postId }) => {
+const BottomComments = ({ comment, commentId, postId, post }) => {
   const { userIn } = UserAuth();
   const [likes, setLikes] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const [open, setOpen] = useRecoilState(modalState);
+  const [userData, setUserData] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -78,37 +80,64 @@ const BottomComments = ({ comment, commentId, postId }) => {
     });
   };
 
+  useEffect(() => {
+    if (userIn) {
+      const getUserData = async () => {
+        const docRef = doc(db, "users", comment?.data()?.uid);
+        const docSnap = await getDoc(docRef);
+        setUserData(docSnap?.data());
+      };
+      getUserData();
+    }
+  }, [db, userData]);
+
   return (
     <div className="px-5 border-b-2 py-2 mb-2 lg:w-[100%] md:w-full">
-      <div className="-mb-6">
-        <div className="flex items-center">
-          <div>
-            <Image
-              width={40}
-              height={40}
-              src={comment?.data().userImage}
-              className="rounded-full mr-3"
-            ></Image>
-          </div>
-          <div className="-mt-3 flex items-center gap-2">
-            <span className="hover:underline cursor-pointer font-semibold sm:flex hidden">
-              {comment?.data().userName}{" "}
-            </span>{" "}
-            <span className="hover:underline cursor-pointer font-semibold pr-1 sm:hidden flex">
-              {comment?.data().userName.slice(0, 11) + "..."}{" "}
+      <div className="flex items-center">
+        <div
+          onClick={() => {
+            userIn
+              ? router.push(`/profile/${comment?.data()?.uid}`)
+              : router.push("/auth/signin");
+          }}
+        >
+          <Image
+            width={40}
+            height={40}
+            src={comment?.data().userImage}
+            className="rounded-full mr-3"
+          ></Image>
+        </div>
+        <div className="flex flex-col">
+          <div className="flex items-center">
+            <span
+              onClick={() => {
+                userIn
+                  ? router.push(`/profile/${comment?.data()?.uid}`)
+                  : router.push("/auth/signin");
+              }}
+              className="hover:underline cursor-pointer font-semibold"
+            >
+              {comment?.data()?.userName.length > 20
+                ? comment?.data()?.userName.slice(0, 20) + "... "
+                : comment?.data()?.userName + " "}
             </span>
-            <div>
-              <Image src={AuthenticationMark} width={20} />
+            <div
+              className={`${
+                userData?.userPosts?.length >= 3 ? "flex" : "hidden"
+              }`}
+            >
+              {" "}
+              <Image src={AuthenticationMark} width={18} />
             </div>
-            {"- "}
-            <span className="text-gray-600">
-              <Moment fromNow>{comment?.data().timeStamp?.toDate()}</Moment>
-            </span>
           </div>
+          <span className="text-gray-600 text-sm">
+            <Moment fromNow>{comment?.data().timeStamp?.toDate()}</Moment>
+          </span>
         </div>
-        <div className="pl-[50px] pb-4 break-words textInput">
-          {comment?.data().commentText}
-        </div>
+      </div>
+      <div className="px-2 pt-2 break-words textInput">
+        {comment?.data().commentText}
       </div>
       <div className="flex items-center justify-around py-3">
         <div

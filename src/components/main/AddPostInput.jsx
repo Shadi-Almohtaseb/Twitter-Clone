@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CalendarIcon,
   FaceSmileIcon,
@@ -13,12 +13,13 @@ import {
   arrayUnion,
   collection,
   doc,
+  getDoc,
   serverTimestamp,
-  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import { useGetPublicUserData } from "../../hooks/useGetPublicUserData";
 
 const AddPostInput = () => {
   const { userIn } = UserAuth();
@@ -26,6 +27,20 @@ const AddPostInput = () => {
   const [imagePost, setImagePost] = useState(null);
   const [loadingPost, setLoadingPost] = useState(false);
   const postImageRef = useRef(null);
+  // const UserData = useGetPublicUserData();
+  // console.log(UserData);
+  // const [userData, setUserData] = useState();
+
+  // useEffect(() => {
+  //   if (userIn) {
+  //     const getUserData = async () => {
+  //       const docRef = doc(db, "users", userIn?.uid);
+  //       const docSnap = await getDoc(docRef);
+  //       setUserData(docSnap);
+  //     };
+  //     getUserData();
+  //   }
+  // }, [db]);
 
   const HandelAddPost = async () => {
     if (loadingPost) return;
@@ -53,6 +68,11 @@ const AddPostInput = () => {
       await updateDoc(doc(db, "users", userIn?.uid), {
         userPosts: arrayUnion(docRef.id),
       });
+      // if (UserData?.data()?.userPosts?.length >= 3) {
+      //   await updateDoc(doc(db, "users", userIn?.uid), {
+      //     authorized: true,
+      //   });
+      // }
     } catch (e) {
       console.error("Error adding document: ", e);
     }
