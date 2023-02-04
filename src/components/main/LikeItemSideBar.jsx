@@ -9,7 +9,7 @@ const LikeItemSideBar = ({ like, post, index }) => {
         {index + ") "}
         <span
           onClick={() => {
-            router.push(`/profile/${post?.data()?.uid}`);
+            router.push(`/profile/${like?.data()?.uid}`);
           }}
           className="cursor-pointer hover:underline"
         >

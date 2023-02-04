@@ -27,14 +27,14 @@ const BottomNavigationBar = () => {
           <HomeIcon className="h-7 w-7" />
         )}
       </Link>
-      <Link href={`/profile/${userIn?.uid}`}>
+      <Link href={userIn ? `/profile/${userIn?.uid}` : `auth/signin`}>
         {router.pathname === "/profile/[user_id]" ? (
           <ActiveUserIcon className="h-7 w-7" />
         ) : (
           <UserIcon className="h-7 w-7" />
         )}
       </Link>
-      <Link href={`/saved_posts`}>
+      <Link href={userIn ? `/saved_posts` : `auth/signin`}>
         {router.pathname === "/saved_posts" ? (
           <ActiveBookmarkIcon className="h-7 w-7" />
         ) : (

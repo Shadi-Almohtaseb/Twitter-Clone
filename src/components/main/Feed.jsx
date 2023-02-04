@@ -14,6 +14,7 @@ const Feed = ({ NewsData, UsersData }) => {
       {userIn && <AddPostInput />}
       <Posts />
       <BottomNavigationBar />
+      <div className="h-8"></div>
     </div>
   );
 };

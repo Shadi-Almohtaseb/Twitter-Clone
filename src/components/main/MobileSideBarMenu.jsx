@@ -34,7 +34,7 @@ const MobileSideBarMenu = ({ open, onClose, setOpenSideBar }) => {
         onClose={onClose}
         open={open}
       >
-        <div className="flex justify-between flex-col h-[87vh]">
+        <div className="flex justify-between flex-col h-[82vh]">
           <div>
             <Image
               width={60}
