@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import { UserAuth } from "../../context/AuthContext";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { Dropdown, Tooltip } from "antd";
+import { Dropdown, notification, Tooltip } from "antd";
 import {
   BookmarkIcon,
   BookmarkSlashIcon,
@@ -35,7 +35,22 @@ const Post = ({ post }) => {
   const { userIn } = UserAuth();
   const UserData = useGetPublicUserData();
   const router = useRouter();
+  const [api, contextHolder] = notification.useNotification();
   const { Post_Id } = router.query;
+
+  const openNotificationWithIconSuccess = (type) => {
+    api[type]({
+      message: "The Tweet has been  Saved",
+      description: "see it in bookmark page!",
+    });
+  };
+
+  const openNotificationWithIconInfo = (type) => {
+    api[type]({
+      message: "The Tweet has been cancelled",
+      description: "",
+    });
+  };
 
   useEffect(
     () =>
@@ -60,12 +75,14 @@ const Post = ({ post }) => {
   }, [db]);
 
   const HandelSavePost = async () => {
+    openNotificationWithIconSuccess("success");
     await updateDoc(doc(db, "users", userIn?.uid), {
       userSavedPosts: arrayUnion(post.id),
     });
   };
 
   const HandelUnSavePost = async () => {
+    openNotificationWithIconInfo("info");
     await updateDoc(doc(db, "users", userIn?.uid), {
       userSavedPosts: arrayRemove(post.id),
     });
@@ -130,6 +147,7 @@ const Post = ({ post }) => {
         Post_Id && "pb-0"
       } ${comments.length > 3 && userIn ? "pb-3" : "pb-0"}`}
     >
+      {contextHolder}
       <div className="flex items-center justify-between py-4 px-4">
         <div className="flex items-center">
           <div
