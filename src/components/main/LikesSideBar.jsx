@@ -7,13 +7,15 @@ import LikeItemSideBar from "./LikeItemSideBar";
 const LikesSideBar = ({ onClose, open, post }) => {
   const [likes, setLikes] = useState([]);
 
-  useEffect(
-    () =>
-      onSnapshot(collection(db, "posts", post.id, "likes"), (snapshot) => {
+  useEffect(() => {
+    let unsubscribe = onSnapshot(
+      collection(db, "posts", post.id, "likes"),
+      (snapshot) => {
         setLikes(snapshot.docs);
-      }),
-    [db]
-  );
+      }
+    );
+    return () => unsubscribe();
+  }, [db]);
 
   return (
     <Drawer

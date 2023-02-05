@@ -1,41 +1,27 @@
-import {
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { db } from "../../firebase.config";
 import Post from "../../src/components/main/Post";
 import Widgets from "../../src/components/rightBar/Widgets";
 import SideBar from "../../src/components/sideBar/SideBar";
 import CommentModal from "../../src/components/CommentModal";
-import Header from "../../src/components/main/Header";
-import Posts from "../../src/components/main/Posts";
-import BottomNavigationBar from "../../src/components/main/BottomNavigationBar";
-import LoadingSpinner from "../../src/components/LoadingSpinner";
-import ProfileHeader from "./ProfileHeader";
-import ProfileInfo from "./ProfileInfo";
-import { AnimatePresence, motion } from "framer-motion";
 
 const MyProfile = ({ NewsData, UsersData }) => {
   const router = useRouter();
   const { user_id } = router.query;
   const [posts, setPosts] = useState([]);
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(collection(db, "posts"), orderBy("timeStamp", "desc")),
-        (snapshot) => {
-          setPosts(snapshot.docs);
-        }
-      ),
-    []
-  );
+  useEffect(() => {
+    let unsubscribe = onSnapshot(
+      query(collection(db, "posts"), orderBy("timeStamp", "desc")),
+      (snapshot) => {
+        setPosts(snapshot.docs);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
   return (
     <div>
       <Head>

@@ -23,30 +23,26 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 const MySavedPosts = ({ NewsData, UsersData }) => {
   const router = useRouter();
-  const { Post_Id } = router.query;
   const [posts, setPosts] = useState([]);
   const [savedPostId, setSavedPostId] = useState([]);
   const { userIn } = UserAuth();
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(collection(db, "posts"), orderBy("timeStamp", "desc")),
-        (snapshot) => {
-          setPosts(snapshot.docs);
-        }
-      ),
-    []
-  );
+  useEffect(() => {
+    let unsubscribe = onSnapshot(
+      query(collection(db, "posts"), orderBy("timeStamp", "desc")),
+      (snapshot) => {
+        setPosts(snapshot.docs);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
 
-  useEffect(
-    () =>
-      onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
-        setSavedPostId(snapshot?.data()?.userSavedPosts);
-      }),
-
-    [db]
-  );
+  useEffect(() => {
+    let unsubscribe = onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
+      setSavedPostId(snapshot?.data()?.userSavedPosts);
+    });
+    return () => unsubscribe();
+  }, [db]);
 
   return (
     <div>

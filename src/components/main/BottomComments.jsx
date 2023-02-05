@@ -33,10 +33,11 @@ const BottomComments = ({ comment, commentId, postId, post }) => {
   const router = useRouter();
 
   useEffect(() => {
-    onSnapshot(
+    let unsubscribe = onSnapshot(
       collection(db, "posts", postId, "comments", commentId, "likes"),
       (snapshot) => setLikes(snapshot.docs)
     );
+    return () => unsubscribe();
   }, [db, commentId, postId]);
 
   useEffect(() => {
@@ -88,6 +89,7 @@ const BottomComments = ({ comment, commentId, postId, post }) => {
         setUserData(docSnap?.data());
       };
       getUserData();
+      return () => getUserData();
     }
   }, [db, userData]);
 

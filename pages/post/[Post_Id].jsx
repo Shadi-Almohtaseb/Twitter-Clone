@@ -18,9 +18,10 @@ const ViewSinglePost = ({ NewsData, UsersData }) => {
   const [post, setPost] = useState();
 
   useEffect(() => {
-    onSnapshot(doc(db, "posts", Post_Id), (snapshot) => {
+    let unsubscribe = onSnapshot(doc(db, "posts", Post_Id), (snapshot) => {
       setPost(snapshot);
     });
+    return () => unsubscribe();
   }, [Post_Id, db]);
 
   return (

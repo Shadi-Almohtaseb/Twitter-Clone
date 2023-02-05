@@ -63,25 +63,28 @@ const Post = ({ post }) => {
     });
   };
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(
-          collection(db, "posts", post.id, "comments"),
-          orderBy("timeStamp", "desc")
-        ),
-        (snapshot) => {
-          setComments(snapshot.docs);
-        }
+  useEffect(() => {
+    let unsubscribe = onSnapshot(
+      query(
+        collection(db, "posts", post.id, "comments"),
+        orderBy("timeStamp", "desc")
       ),
-    [db]
-  );
+      (snapshot) => {
+        setComments(snapshot.docs);
+      }
+    );
+    return () => unsubscribe();
+  }, [db]);
 
   useEffect(() => {
     if (userIn) {
-      onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
-        setSavedPost(snapshot?.data()?.userSavedPosts);
-      });
+      let unsubscribe = onSnapshot(
+        doc(db, "users", userIn?.uid),
+        (snapshot) => {
+          setSavedPost(snapshot?.data()?.userSavedPosts);
+        }
+      );
+      return () => unsubscribe();
     }
   }, [db]);
 
@@ -107,6 +110,7 @@ const Post = ({ post }) => {
         setUserData(docSnap?.data());
       };
       getUserData();
+      return () => getUserData();
     }
   }, [db, userData]);
 

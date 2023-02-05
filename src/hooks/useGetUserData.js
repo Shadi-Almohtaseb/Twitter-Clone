@@ -15,6 +15,7 @@ const useGetUserData = () => {
       UserData.current = docSnap?.data();
     };
     getUserData();
+    return () => getUserData();
   }, []);
 
   return UserData.current;

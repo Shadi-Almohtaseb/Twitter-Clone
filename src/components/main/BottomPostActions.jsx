@@ -43,25 +43,25 @@ const BottomPostActions = ({ post }) => {
       collection(db, "posts", post?.id, "likes"),
       (snapshot) => setLikes(snapshot.docs)
     );
+    return unsubscribe();
   }, [db]);
 
   useEffect(() => {
     setIsLiked(likes.findIndex((like) => like.id === userIn?.uid) !== -1);
   }, [likes]);
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(
-          collection(db, "posts", post.id, "comments"),
-          orderBy("timeStamp", "desc")
-        ),
-        (snapshot) => {
-          setComments(snapshot.docs);
-        }
+  useEffect(() => {
+    let unsubscribe = onSnapshot(
+      query(
+        collection(db, "posts", post.id, "comments"),
+        orderBy("timeStamp", "desc")
       ),
-    [db]
-  );
+      (snapshot) => {
+        setComments(snapshot.docs);
+      }
+    );
+    return () => unsubscribe();
+  }, [db]);
 
   const HandelLike = async () => {
     if (userIn) {
