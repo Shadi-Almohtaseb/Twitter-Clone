@@ -25,9 +25,10 @@ const CommentModal = () => {
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {
-    onSnapshot(doc(db, "posts", postId), (snapshot) => {
+    let unsubscribe = onSnapshot(doc(db, "posts", postId), (snapshot) => {
       setPost(snapshot);
     });
+    return () => unsubscribe();
   }, [postId, db]);
 
   const HandelAddComment = async () => {

@@ -24,13 +24,14 @@ export const AuthContextProvider = ({ children }) => {
   }, [userIn]);
 
   useEffect(() => {
-    onSnapshot(
+    let unsubscribe = onSnapshot(
       collection(db, "users"),
 
       (snapshot) => {
         setUsersList([...usersList, snapshot.docs]);
       }
     );
+    return () => unsubscribe();
   }, []);
 
   const addUsers = async (result) => {

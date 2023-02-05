@@ -7,16 +7,15 @@ import { AnimatePresence, motion } from "framer-motion";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(collection(db, "posts"), orderBy("timeStamp", "desc")),
-        (snapshot) => {
-          setPosts(snapshot.docs);
-        }
-      ),
-    []
-  );
+  useEffect(() => {
+    let unsubscribe = onSnapshot(
+      query(collection(db, "posts"), orderBy("timeStamp", "desc")),
+      (snapshot) => {
+        setPosts(snapshot.docs);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div>
