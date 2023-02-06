@@ -43,7 +43,7 @@ const ProfileInfo = () => {
             }`}
           >
             {" "}
-            <Image src={AuthenticationMark} width={18} />
+            <Image src={AuthenticationMark} alt="img" width={18} />
           </div>
         </div>
         <span className="text-gray-700">

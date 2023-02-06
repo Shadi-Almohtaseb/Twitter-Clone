@@ -29,7 +29,7 @@ const CommentModal = () => {
     });
     console.log("Modal Line_31");
     return () => unsubscribe();
-  }, [postId, db]);
+  }, [postId]);
 
   const HandelAddComment = async () => {
     await addDoc(collection(db, "posts", postId, "comments"), {
@@ -52,6 +52,7 @@ const CommentModal = () => {
             <Image
               width={50}
               height={50}
+              alt="userImg"
               src={post?.data()?.userImage}
               className="rounded-full mr-3"
             ></Image>
@@ -77,6 +78,7 @@ const CommentModal = () => {
           <Image
             width={50}
             height={50}
+            alt="img"
             src={userIn?.photoURL}
             className="rounded-full mr-3"
           ></Image>

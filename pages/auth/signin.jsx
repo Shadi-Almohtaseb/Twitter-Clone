@@ -14,7 +14,7 @@ const SignIn = () => {
     <div className=" my-10">
       <div className="flex flex-col items-center justify-center gap-6">
         <LockClosedIcon color="#8aa5f5" width={120} />
-        <Image src={profileImage} width={400} />
+        <Image src={profileImage} alt="Profile" width={400} />
         <button
           onClick={handelSignIn}
           className="py-3 px-8 rounded-md bg-blue-500 hover:bg-blue-600 text-white text-xl transition-all"

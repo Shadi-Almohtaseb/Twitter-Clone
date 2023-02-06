@@ -43,12 +43,13 @@ const BottomPostActions = ({ post }) => {
       collection(db, "posts", post?.id, "likes"),
       (snapshot) => setLikes(snapshot.docs)
     );
+    console.log("BottomPostActions Line_46");
     return unsubscribe();
-  }, [db]);
+  }, [post?.id]);
 
   useEffect(() => {
     setIsLiked(likes.findIndex((like) => like.id === userIn?.uid) !== -1);
-  }, [likes]);
+  }, [likes, userIn?.uid]);
 
   useEffect(() => {
     let unsubscribe = onSnapshot(
@@ -60,8 +61,9 @@ const BottomPostActions = ({ post }) => {
         setComments(snapshot.docs);
       }
     );
+    console.log("BottomPostAction Line_64");
     return () => unsubscribe();
-  }, [db]);
+  }, [post.id]);
 
   const HandelLike = async () => {
     if (userIn) {

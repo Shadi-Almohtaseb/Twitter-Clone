@@ -37,8 +37,9 @@ const BottomComments = ({ comment, commentId, postId, post }) => {
       collection(db, "posts", postId, "comments", commentId, "likes"),
       (snapshot) => setLikes(snapshot.docs)
     );
+    console.log("BottomComments Line_40");
     return () => unsubscribe();
-  }, [db, commentId, postId]);
+  }, []);
 
   useEffect(() => {
     setIsLiked(likes.findIndex((like) => like.id === userIn?.uid) !== -1);
@@ -92,7 +93,7 @@ const BottomComments = ({ comment, commentId, postId, post }) => {
       console.log("Bottom Comments Line_92");
       return () => getUserData();
     }
-  }, [db]);
+  }, []);
 
   return (
     <div className="px-5 border-b-2 py-2 mb-2 lg:w-[100%] md:w-full">
@@ -107,6 +108,7 @@ const BottomComments = ({ comment, commentId, postId, post }) => {
           <Image
             width={40}
             height={40}
+            alt="img"
             src={comment?.data().userImage}
             className="rounded-full mr-3"
           ></Image>
@@ -131,7 +133,7 @@ const BottomComments = ({ comment, commentId, postId, post }) => {
               }`}
             >
               {" "}
-              <Image src={AuthenticationMark} width={18} />
+              <Image src={AuthenticationMark} alt="img" width={18} />
             </div>
           </div>
           <span className="text-gray-600 text-sm">

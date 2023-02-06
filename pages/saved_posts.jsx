@@ -6,7 +6,6 @@ import {
   query,
 } from "firebase/firestore";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase.config";
 import Post from "../src/components/main/Post";
@@ -22,7 +21,6 @@ import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 const MySavedPosts = ({ NewsData, UsersData }) => {
-  const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [savedPostId, setSavedPostId] = useState([]);
   const { userIn } = UserAuth();
@@ -34,13 +32,15 @@ const MySavedPosts = ({ NewsData, UsersData }) => {
         setPosts(snapshot.docs);
       }
     );
+    console.log("SavedPosts Line_35");
     return () => unsubscribe();
-  }, []);
+  }, [userIn?.uid]);
 
   useEffect(() => {
     let unsubscribe = onSnapshot(doc(db, "users", userIn?.uid), (snapshot) => {
       setSavedPostId(snapshot?.data()?.userSavedPosts);
     });
+    console.log("SavedPosts Line_43");
     return () => unsubscribe();
   }, [db]);
 

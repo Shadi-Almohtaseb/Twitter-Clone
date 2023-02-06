@@ -8,7 +8,6 @@ import Widgets from "../../src/components/rightBar/Widgets";
 import SideBar from "../../src/components/sideBar/SideBar";
 import CommentModal from "../../src/components/CommentModal";
 import Header from "../../src/components/main/Header";
-import Posts from "../../src/components/main/Posts";
 import BottomNavigationBar from "../../src/components/main/BottomNavigationBar";
 import LoadingSpinner from "../../src/components/LoadingSpinner";
 
@@ -21,8 +20,9 @@ const ViewSinglePost = ({ NewsData, UsersData }) => {
     let unsubscribe = onSnapshot(doc(db, "posts", Post_Id), (snapshot) => {
       setPost(snapshot);
     });
+    console.log("SinglePost Line_23");
     return () => unsubscribe();
-  }, [Post_Id, db]);
+  }, [Post_Id]);
 
   return (
     <div>
