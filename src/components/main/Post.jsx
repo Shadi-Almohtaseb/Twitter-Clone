@@ -112,9 +112,9 @@ const Post = ({ post }) => {
       };
       getUserData();
       console.log("Post Line_113");
-      return () => getUserData();
+      // return () => getUserData();
     }
-  }, [post]);
+  }, [post, post?.data()?.uid]);
 
   const items = [
     {
