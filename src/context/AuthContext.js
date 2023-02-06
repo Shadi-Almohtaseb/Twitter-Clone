@@ -31,6 +31,7 @@ export const AuthContextProvider = ({ children }) => {
         setUsersList([...usersList, snapshot.docs]);
       }
     );
+    console.log("Post Line_34");
     return () => unsubscribe();
   }, []);
 
@@ -75,6 +76,7 @@ export const AuthContextProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUserIn(user);
     });
+    console.log("Auth Line_78");
     return () => {
       unsubscribe();
     };

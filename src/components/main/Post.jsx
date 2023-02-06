@@ -73,6 +73,7 @@ const Post = ({ post }) => {
         setComments(snapshot.docs);
       }
     );
+    console.log("Post Line_76");
     return () => unsubscribe();
   }, [db]);
 
@@ -84,6 +85,7 @@ const Post = ({ post }) => {
           setSavedPost(snapshot?.data()?.userSavedPosts);
         }
       );
+      console.log("Post Line_87");
       return () => unsubscribe();
     }
   }, [db]);
@@ -108,11 +110,13 @@ const Post = ({ post }) => {
         const docRef = doc(db, "users", post?.data()?.uid);
         const docSnap = await getDoc(docRef);
         setUserData(docSnap?.data());
+        console.log("Post Line_111");
       };
       getUserData();
+      console.log("Post Line_113");
       return () => getUserData();
     }
-  }, [db, userData]);
+  }, [db]);
 
   const items = [
     {
