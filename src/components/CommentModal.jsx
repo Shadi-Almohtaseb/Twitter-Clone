@@ -28,6 +28,7 @@ const CommentModal = () => {
     let unsubscribe = onSnapshot(doc(db, "posts", postId), (snapshot) => {
       setPost(snapshot);
     });
+    console.log("Modal Line_31");
     return () => unsubscribe();
   }, [postId, db]);
 

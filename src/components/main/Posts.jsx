@@ -14,6 +14,7 @@ const Posts = () => {
         setPosts(snapshot.docs);
       }
     );
+    console.log("Posts Line_17");
     return () => unsubscribe();
   }, []);
 
