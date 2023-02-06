@@ -12,7 +12,6 @@ import {
   doc,
   onSnapshot,
   serverTimestamp,
-  setDoc,
 } from "firebase/firestore";
 import { UserAuth } from "../context/AuthContext";
 import { FaceSmileIcon, PhotoIcon } from "@heroicons/react/24/outline";
