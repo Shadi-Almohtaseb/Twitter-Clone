@@ -28,7 +28,6 @@ import {
   HeartIcon,
 } from "@heroicons/react/24/outline";
 import AuthenticationMark from "../../assets/Images/AuthenticationMark.png";
-import { useGetPublicUserData } from "../../hooks/useGetPublicUserData";
 import LikesSideBar from "./LikesSideBar";
 
 const Post = ({ post }) => {
@@ -37,7 +36,6 @@ const Post = ({ post }) => {
   const [savedPost, setSavedPost] = useState([]);
   const [userData, setUserData] = useState();
   const { userIn } = UserAuth();
-  // const UserData = useGetPublicUserData();
   const router = useRouter();
   const [api, contextHolder] = notification.useNotification();
   const { Post_Id } = router.query;
@@ -75,7 +73,7 @@ const Post = ({ post }) => {
     );
     console.log("Post Line_76");
     return () => unsubscribe();
-  }, [db]);
+  }, [post.id]);
 
   useEffect(() => {
     if (userIn) {
@@ -88,7 +86,7 @@ const Post = ({ post }) => {
       console.log("Post Line_87");
       return () => unsubscribe();
     }
-  }, [db]);
+  }, [userIn]);
 
   const HandelSavePost = async () => {
     openNotificationWithIconSuccess("success");
@@ -116,7 +114,7 @@ const Post = ({ post }) => {
       console.log("Post Line_113");
       return () => getUserData();
     }
-  }, [db]);
+  }, [post]);
 
   const items = [
     {
@@ -194,6 +192,7 @@ const Post = ({ post }) => {
             <Image
               width={45}
               height={45}
+              alt="img"
               src={post?.data()?.userImage}
               className="rounded-full mr-3 cursor-pointer"
             ></Image>
@@ -217,7 +216,7 @@ const Post = ({ post }) => {
                   userData?.userPosts?.length >= 3 ? "flex" : "hidden"
                 }`}
               >
-                <Image src={AuthenticationMark} width={18} />
+                <Image src={AuthenticationMark} alt="img" width={18} />
               </div>{" "}
               <span className="text-gray-500 pl-2 hidden lg:flex">
                 @{post?.data()?.name.toLowerCase().replace(/\s/g, "")}
@@ -255,7 +254,7 @@ const Post = ({ post }) => {
         {post?.data()?.textInputPost}
       </div>
       <div className="px-3">
-        <img src={post?.data()?.imagePost} className="rounded-xl" />
+        <img src={post?.data()?.imagePost} alt="img" className="rounded-xl" />
       </div>
       <div className="w-full">
         <BottomPostActions post={post} />

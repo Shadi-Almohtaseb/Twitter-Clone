@@ -21,7 +21,7 @@ export default function Home({ NewsData, UsersData }) {
     </div>
   );
 }
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const [NewsAPI, UsersAPI] = await Promise.all([
     fetch(`https://saurav.tech/NewsAPI/top-headlines/category/health/in.json`, {
       cache: "no-store",

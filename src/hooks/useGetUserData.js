@@ -15,8 +15,9 @@ const useGetUserData = () => {
       UserData.current = docSnap?.data();
     };
     getUserData();
+    console.log("GetUserData Line_18");
     return () => getUserData();
-  }, []);
+  }, [user_id]);
 
   return UserData.current;
 };

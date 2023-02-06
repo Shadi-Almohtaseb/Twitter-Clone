@@ -14,8 +14,9 @@ const LikesSideBar = ({ onClose, open, post }) => {
         setLikes(snapshot.docs);
       }
     );
+    console.log("LikesSideBar Line_17");
     return () => unsubscribe();
-  }, [db]);
+  }, [post.id]);
 
   return (
     <Drawer

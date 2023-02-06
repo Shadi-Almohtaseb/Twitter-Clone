@@ -7,6 +7,10 @@ import Post from "../../src/components/main/Post";
 import Widgets from "../../src/components/rightBar/Widgets";
 import SideBar from "../../src/components/sideBar/SideBar";
 import CommentModal from "../../src/components/CommentModal";
+import ProfileHeader from "./ProfileHeader";
+import ProfileInfo from "./ProfileInfo";
+import BottomNavigationBar from "../../src/components/main/BottomNavigationBar";
+import { AnimatePresence, motion } from "framer-motion";
 
 const MyProfile = ({ NewsData, UsersData }) => {
   const router = useRouter();
@@ -20,6 +24,7 @@ const MyProfile = ({ NewsData, UsersData }) => {
         setPosts(snapshot.docs);
       }
     );
+    console.log("MyProfile Line_27");
     return () => unsubscribe();
   }, []);
   return (

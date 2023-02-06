@@ -18,6 +18,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import DefaultImage from "../../assets/Images/AuthenticationMark.png";
 
 const AddPostInput = () => {
   const { userIn } = UserAuth();
@@ -77,8 +78,8 @@ const AddPostInput = () => {
         <Image
           width={50}
           height={50}
-          src={userIn.photoURL}
-          alt="ProfileImage"
+          src={userIn?.photoURL ? userIn?.photoURL : DefaultImage}
+          alt="Profile"
           className="rounded-full"
         ></Image>
       </div>
@@ -97,8 +98,9 @@ const AddPostInput = () => {
           >
             <XMarkIcon width={29} height={29} />
           </div>
-          <img
+          <Image
             src={imagePost}
+            alt="img"
             className={`my-3 rounded-lg ${loadingPost && "animate-pulse"}`}
           />
         </div>

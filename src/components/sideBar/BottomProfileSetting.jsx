@@ -9,6 +9,7 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
+import DefaultImage from "../../assets/Images/AuthenticationMark.png";
 
 const BottomProfileSetting = () => {
   const router = useRouter();
@@ -67,11 +68,11 @@ const BottomProfileSetting = () => {
       <div className="flex justify-center items-center mb-5 lg:-mr-9 py-3 pl-3 lg:px-5 rounded-full hover:bg-gray-200 hover:cursor-pointer">
         <div>
           <Image
-            width={45}
-            height={45}
-            src={userIn?.photoURL}
+            src={userIn?.photoURL ? userIn?.photoURL : DefaultImage}
             alt="ProfileImage"
             className="rounded-full mr-3"
+            width={45}
+            height={45}
           ></Image>
         </div>
         <div className="flex sm:hidden lg:flex flex-col">
