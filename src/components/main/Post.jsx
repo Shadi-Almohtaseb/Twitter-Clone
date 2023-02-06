@@ -254,7 +254,7 @@ const Post = ({ post }) => {
         {post?.data()?.textInputPost}
       </div>
       <div className="px-3">
-        <img src={post?.data()?.imagePost} alt="img" className="rounded-xl" />
+        <img src={post?.data()?.imagePost} className="rounded-xl" />
       </div>
       <div className="w-full">
         <BottomPostActions post={post} />
