@@ -1,5 +1,4 @@
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
-import ProfileImage from "../../assets/Images/shadi.jpg";
 import Image from "next/image";
 import React from "react";
 import { UserAuth } from "../../context/AuthContext";
