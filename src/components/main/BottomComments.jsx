@@ -91,9 +91,9 @@ const BottomComments = ({ comment, commentId, postId, post }) => {
       };
       getUserData();
       console.log("Bottom Comments Line_92");
-      return () => getUserData();
+      // return () => getUserData();
     }
-  }, []);
+  }, [comment?.data()?.uid]);
 
   return (
     <div className="px-5 border-b-2 py-2 mb-2 lg:w-[100%] md:w-full">

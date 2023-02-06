@@ -98,7 +98,7 @@ const AddPostInput = () => {
           >
             <XMarkIcon width={29} height={29} />
           </div>
-          <Image
+          <img
             src={imagePost}
             alt="img"
             className={`my-3 rounded-lg ${loadingPost && "animate-pulse"}`}

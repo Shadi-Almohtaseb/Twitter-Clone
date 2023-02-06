@@ -44,8 +44,8 @@ const BottomPostActions = ({ post }) => {
       (snapshot) => setLikes(snapshot.docs)
     );
     console.log("BottomPostActions Line_46");
-    return unsubscribe();
-  }, [post?.id]);
+    // return unsubscribe();
+  }, [db]);
 
   useEffect(() => {
     setIsLiked(likes.findIndex((like) => like.id === userIn?.uid) !== -1);
